@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro del Evento - SmartSchool</title>
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Dashboard CSS -->
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1 class="brand-title"><i class="fas fa-graduation-cap"></i> SmartSchool</h1>
+    </div>
+
+    <div class="sidebar-menu">
+      <a href="../../index.html" class="menu-link">
+        <i class="fas fa-home"></i> Inicio
+      </a>
+      <a href="../dashboard.html" class="menu-link">
+        <i class="fas fa-calendar-alt"></i> Agenda Escolar
+      </a>
+      <a href="../event/event.html" class="menu-link active">
+        <i class="fas fa-pen-nib"></i> Evento
+      </a>
+      <a href="../users/users.html" class="menu-link">
+        <i class="fas fa-users"></i> Usuarios
+      </a>
+      <a href="../notifications/notifications.html" class="menu-link">
+        <i class="fas fa-bell"></i> Notificaciones
+      </a>
+      <a href="../logistics/logistics.html" class="menu-link">
+        <i class="fas fa-boxes"></i> Logística
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Top Nav -->
+    <nav class="top-nav">
+      <div class="welcome-msg">
+        <h2>Crear Nuevo Evento</h2>
+        <p>Completa la información para registrar una actividad.</p>
+      </div>
+
+      <div class="user-profile">
+        <!-- Notifications -->
+        <div class="dropdown is-right is-hoverable">
+          <div class="dropdown-trigger">
+            <span class="icon is-medium has-text-grey" style="cursor: pointer;">
+              <i class="fas fa-bell fa-lg"></i>
+            </span>
+          </div>
+        </div>
+        <div style="width: 1px; height: 30px; background: #eee; margin: 0 10px;"></div>
+        <img src="../../img/docente.jpg" alt="User" class="avatar">
+      </div>
+    </nav>
+
+    <!-- Form Content -->
+    <form>
+      <section class="form-section">
+        <h3 class="form-section-title"><i class="fas fa-info-circle"></i> 1. Datos Generales</h3>
+        <div class="form-grid">
+          <div class="input-group">
+            <label class="input-label">Nombre del evento</label>
+            <input type="text" class="custom-input" placeholder="Ej. Feria de Ciencias">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Tipo del evento</label>
+            <select class="custom-input">
+              <option>Seleccione un tipo</option>
+              <option>Académico</option>
+              <option>Cultural</option>
+              <option>Deportivo</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h3 class="form-section-title"><i class="fas fa-clock"></i> 2. Programación</h3>
+        <div class="form-grid">
+          <div class="input-group">
+            <label class="input-label">Fecha</label>
+            <input type="date" class="custom-input">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Hora</label>
+            <input type="time" class="custom-input">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Ubicación</label>
+            <input type="text" class="custom-input" placeholder="Ej. Auditorio Principal">
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h3 class="form-section-title"><i class="fas fa-align-left"></i> 3. Descripción</h3>
+        <div class="input-group">
+          <label class="input-label">Detalles del evento</label>
+          <textarea class="custom-input" rows="4" placeholder="Describa brevemente el evento"></textarea>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h3 class="form-section-title"><i class="fas fa-users-cog"></i> 4. Control y Aforo</h3>
+        <div class="form-grid">
+          <div class="input-group">
+            <label class="input-label">Aforo Máximo</label>
+            <input type="number" class="custom-input" placeholder="Ej. 150">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Encargados</label>
+            <input type="text" class="custom-input" placeholder="Ej. Profesores, Coordinadores">
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h3 class="form-section-title"><i class="fas fa-image"></i> 5. Multimedia</h3>
+        <div class="file has-name is-fullwidth">
+          <label class="file-label">
+            <input class="file-input" type="file" name="resume">
+            <span class="file-cta">
+              <span class="file-icon"><i class="fas fa-upload"></i></span>
+              <span class="file-label">Seleccionar imagen...</span>
+            </span>
+            <span class="file-name">No se ha seleccionado archivo</span>
+          </label>
+        </div>
+      </section>
+
+      <div class="buttons is-right">
+        <button type="button" class="button is-light">Cancelar</button>
+        <button type="submit" class="button is-success">Guardar y Publicar</button>
+      </div>
+    </form>
+
+  </div>
+  <script>
+    // Manejo de Creación de Eventos
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Recolección de datos (ajustar selectores según el HTML actual)
+      // Nota: Los inputs no tienen ID, así que usaré selectores específicos o querySelectorAll
+      const inputs = form.querySelectorAll('input, select, textarea');
+
+      const nombre = inputs[1].value; // Nombre del evento
+      const tipo = inputs[2].value;   // Tipo
+      const fecha = inputs[3].value;  // Fecha
+      const hora = inputs[4].value;   // Hora
+      const lugar = inputs[5].value;  // Ubicación
+      const descripcion = inputs[6].value; // Detalle
+      // ... otros campos pueden ser agregados a la BD si el esquema lo permite
+
+      // Estructura para el backend
+      const eventData = {
+        nombre,
+        tipo,
+        fecha,
+        hora,
+        lugar,
+        descripcion,
+        // Valores por defecto para campos requeridos por BD que no están en el form:
+        modalidad: 'Presencial',
+        objetivo: 'General',
+        control: 'U001', // ID de usuario temporal o del login
+        grupo: 'Todos'
+      };
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.classList.add('is-loading');
+
+      try {
+        // Nota: Se requiere implementar create.php primero, pero lo dejaremos apuntado
+        const response = await fetch('../../api/events/create.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert('Evento creado exitosamente: ' + result.eventId);
+          form.reset();
+        } else {
+          alert('Error: ' + (result.error || 'No se pudo crear el evento'));
+        }
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error de conexión');
+      } finally {
+        submitBtn.classList.remove('is-loading');
+      }
+    });
+
+    // Cargar eventos existentes (Opcional, si se desea mostrar lista aquí mismo)
+    // ...
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Recurso - SmartSchool</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Dashboard CSS -->
+    <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="brand-title"><i class="fas fa-graduation-cap"></i> SmartSchool</h1>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="../../index.html" class="menu-link">
+                <i class="fas fa-home"></i> Inicio
+            </a>
+            <a href="../dashboard.html" class="menu-link">
+                <i class="fas fa-calendar-alt"></i> Agenda Escolar
+            </a>
+            <a href="../event/event.html" class="menu-link">
+                <i class="fas fa-ticket-alt"></i> Mis Eventos
+            </a>
+            <a href="../users/users.html" class="menu-link">
+                <i class="fas fa-users"></i> Usuarios
+            </a>
+            <a href="../notifications/notifications.html" class="menu-link">
+                <i class="fas fa-bell"></i> Notificaciones
+            </a>
+            <a href="../logistics/logistics.html" class="menu-link active">
+                <i class="fas fa-boxes"></i> Logística
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Top Nav -->
+        <nav class="top-nav">
+            <div class="welcome-msg">
+                <h2>Registrar Nuevo Recurso</h2>
+                <p>Añade equipos, salones o material logístico.</p>
+            </div>
+
+            <div class="user-profile">
+                <div class="dropdown is-right is-hoverable">
+                    <div class="dropdown-trigger">
+                        <span class="icon is-medium has-text-grey" style="cursor: pointer;">
+                            <i class="fas fa-bell fa-lg"></i>
+                        </span>
+                    </div>
+                </div>
+                <div style="width: 1px; height: 30px; background: #eee; margin: 0 10px;"></div>
+                <img src="../../img/docente.jpg" alt="User" class="avatar">
+            </div>
+        </nav>
+
+        <!-- Form Content -->
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <form>
+                    <section class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-box-open"></i> Datos del Recurso</h3>
+
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label class="input-label">Nombre del Recurso</label>
+                                <input type="text" class="custom-input" placeholder="Ej. Proyector Epson X5">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Categoría</label>
+                                <select class="custom-input">
+                                    <option>Seleccione una categoría</option>
+                                    <option>Tecnología</option>
+                                    <option>Mobiliario</option>
+                                    <option>Espacio Físico (Salón/Auditorio)</option>
+                                    <option>Transporte</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label class="input-label">Capacidad / Unidades</label>
+                                <input type="number" class="custom-input" placeholder="Ej. 1">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Estado Inicial</label>
+                                <select class="custom-input">
+                                    <option>Disponible</option>
+                                    <option>Ocupado</option>
+                                    <option>En Mantenimiento</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Descripción / Notas Adicionales</label>
+                            <textarea class="custom-input" rows="3"
+                                placeholder="Detalles sobre el estado o uso del recurso..."></textarea>
+                        </div>
+
+                    </section>
+
+                    <div class="buttons is-right">
+                        <a href="../logistics/logistics.html" class="button is-light">Cancelar</a>
+                        <button type="submit" class="button is-success">Guardar Recurso</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

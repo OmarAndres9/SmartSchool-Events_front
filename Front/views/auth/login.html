@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartSchool - Iniciar Sesión</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Dashboard CSS (includes login styles) -->
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <style>
+    /* Page specific override to center the login */
+    body {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-card">
+    <div class="login-left">
+      <i class="fas fa-graduation-cap fa-4x" style="margin-bottom: 20px;"></i>
+      <h1>SmartSchool</h1>
+      <p>Gestión escolar inteligente para tu institución.</p>
+    </div>
+
+    <div class="login-right">
+      <div class="login-form">
+        <h2>Bienvenido 👋</h2>
+
+        <form action="../dashboard.html" method="get">
+          <div class="input-group">
+            <label for="usuario" class="input-label">Usuario</label>
+            <input type="text" id="nombre" name="usuario" class="custom-input" placeholder="Ingresa tu usuario"
+              required>
+          </div>
+
+          <div class="input-group">
+            <label for="password" class="input-label">Contraseña</label>
+            <input type="password" id="password" name="password" class="custom-input" placeholder="••••••••" required>
+          </div>
+
+          <div class="input-group">
+            <label for="rol" class="input-label">Rol</label>
+            <select id="rol" name="rol" class="custom-input" required>
+              <option value="">Selecciona tu rol</option>
+              <option value="estudiante">Estudiante</option>
+              <option value="profesor">Profesor</option>
+              <option value="administrador">Administrador</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary">Ingresar</button>
+        </form>
+
+        <div style="margin-top: 20px; text-align: center; font-size: 0.9rem; color: #666;">
+          <p><a href="#" style="color: var(--secondary-color); text-decoration: none;">¿Olvidaste tu contraseña?</a></p>
+          <p style="margin-top: 10px;">¿No tienes cuenta? <a href="register.html"
+              style="color: var(--secondary-color); font-weight: 600;">Regístrate</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Manejo de Login con Fetch
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('nombre').value;
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('rol').value;
+
+      // Nota: En esta implementación el rol se verifica después del login, 
+      // pero lo enviamos por si se quiere validar antes o en el backend.
+      // El backend actual busca por usuario y verifica pass.
+
+      const submitBtn = form.querySelector('button');
+      const originalBtnText = submitBtn.innerText;
+      submitBtn.innerText = 'Cargando...';
+      submitBtn.disabled = true;
+
+      try {
+        const response = await fetch('../../api/auth/login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Guardar info de usuario en localStorage
+          localStorage.setItem('user', JSON.stringify(result.user));
+
+          // Redireccionar al dashboard
+          window.location.href = '../dashboard.html';
+        } else {
+          alert('Error: ' + (result.error || 'Credenciales inválidas'));
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error de conexión');
+      } finally {
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+
+</html>

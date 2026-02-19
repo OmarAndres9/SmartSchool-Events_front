@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logística - SmartSchool</title>
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Dashboard CSS -->
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1 class="brand-title"><i class="fas fa-graduation-cap"></i> SmartSchool</h1>
+    </div>
+
+    <div class="sidebar-menu">
+      <a href="../../index.html" class="menu-link">
+        <i class="fas fa-home"></i> Inicio
+      </a>
+      <a href="../dashboard.html" class="menu-link">
+        <i class="fas fa-calendar-alt"></i> Agenda Escolar
+      </a>
+      <a href="../event/event.html" class="menu-link">
+        <i class="fas fa-ticket-alt"></i> Mis Eventos
+      </a>
+      <a href="../users/users.html" class="menu-link">
+        <i class="fas fa-users"></i> Usuarios
+      </a>
+      <a href="../notifications/notifications.html" class="menu-link">
+        <i class="fas fa-bell"></i> Notificaciones
+      </a>
+      <a href="../logistics/logistics.html" class="menu-link active">
+        <i class="fas fa-boxes"></i> Logística
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Top Nav -->
+    <nav class="top-nav">
+      <div class="welcome-msg">
+        <h2>Logística y Recursos</h2>
+        <p>Gestiona espacios y equipos de la institución.</p>
+      </div>
+
+      <div class="user-profile">
+        <div class="dropdown is-right is-hoverable">
+          <div class="dropdown-trigger">
+            <span class="icon is-medium has-text-grey" style="cursor: pointer;">
+              <i class="fas fa-bell fa-lg"></i>
+            </span>
+          </div>
+        </div>
+        <div style="width: 1px; height: 30px; background: #eee; margin: 0 10px;"></div>
+        <img src="../../img/docente.jpg" alt="User" class="avatar">
+      </div>
+    </nav>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="control has-icons-left" style="flex: 1;">
+        <input class="input" type="text" placeholder="Buscar recurso...">
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+      <div class="select">
+        <select>
+          <option>Todos</option>
+          <option>Disponibles</option>
+          <option>Ocupados</option>
+          <option>En Mantenimiento</option>
+        </select>
+      </div>
+      <a href="add-resource.html" class="button is-primary">
+        <span class="icon"><i class="fas fa-plus"></i></span>
+        <span>Nuevo Recurso</span>
+      </a>
+    </div>
+
+    <!-- Resources Grid -->
+    <section class="resource-list">
+
+      <!-- Resource 1 -->
+      <div class="resource-card">
+        <div class="resource-status-bar status-available"></div>
+        <div class="resource-info">
+          <div class="is-flex is-justify-content-space-between is-align-items-start">
+            <div>
+              <h3 class="resource-name">Salón de Actos</h3>
+              <p class="resource-detail">Capacidad 200 personas</p>
+            </div>
+            <span class="status-badge badge-available">Disponible</span>
+          </div>
+          <div class="mt-4 is-flex is-justify-content-space-between">
+            <button class="button is-small is-light"><i class="fas fa-eye"></i></button>
+            <button class="button is-small is-light"><i class="fas fa-pen"></i></button>
+            <button class="button is-small is-light"><i class="fas fa-cog"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resource 2 -->
+      <div class="resource-card">
+        <div class="resource-status-bar status-occupied"></div>
+        <div class="resource-info">
+          <div class="is-flex is-justify-content-space-between is-align-items-start">
+            <div>
+              <h3 class="resource-name">Proyector Epson</h3>
+              <p class="resource-detail">Responsable: Prof. Ana Pérez</p>
+            </div>
+            <span class="status-badge badge-occupied">Ocupado</span>
+          </div>
+          <div class="mt-4 is-flex is-justify-content-space-between">
+            <button class="button is-small is-light"><i class="fas fa-eye"></i></button>
+            <button class="button is-small is-light"><i class="fas fa-pen"></i></button>
+            <button class="button is-small is-danger is-light"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resource 3 -->
+      <div class="resource-card">
+        <div class="resource-status-bar status-maintenance"></div>
+        <div class="resource-info">
+          <div class="is-flex is-justify-content-space-between is-align-items-start">
+            <div>
+              <h3 class="resource-name">Bus Escolar #3</h3>
+              <p class="resource-detail">Capacidad 40 Estudiantes</p>
+            </div>
+            <span class="status-badge badge-maintenance">Mantenimiento</span>
+          </div>
+          <div class="mt-4 is-flex is-justify-content-space-between">
+            <button class="button is-small is-light"><i class="fas fa-eye"></i></button>
+            <button class="button is-small is-light"><i class="fas fa-pen"></i></button>
+            <button class="button is-small is-light"><i class="fas fa-cog"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  <script src="../../js/logistics.js"></script>
+</body>
+
+</html>

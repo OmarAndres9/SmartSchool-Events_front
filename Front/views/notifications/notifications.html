@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones - SmartSchool</title>
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Dashboard CSS -->
+  <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1 class="brand-title"><i class="fas fa-graduation-cap"></i> SmartSchool</h1>
+    </div>
+
+    <div class="sidebar-menu">
+      <a href="../../index.html" class="menu-link">
+        <i class="fas fa-home"></i> Inicio
+      </a>
+      <a href="../dashboard.html" class="menu-link">
+        <i class="fas fa-calendar-alt"></i> Agenda Escolar
+      </a>
+      <a href="../event/event.html" class="menu-link">
+        <i class="fas fa-ticket-alt"></i> Mis Eventos
+      </a>
+      <a href="../users/users.html" class="menu-link">
+        <i class="fas fa-users"></i> Usuarios
+      </a>
+      <a href="../notifications/notifications.html" class="menu-link active">
+        <i class="fas fa-bell"></i> Notificaciones
+      </a>
+      <a href="../logistics/logistics.html" class="menu-link">
+        <i class="fas fa-boxes"></i> Logística
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Top Nav -->
+    <nav class="top-nav">
+      <div class="welcome-msg">
+        <h2>Historial de Notificaciones</h2>
+        <p>Mantente al día con lo que sucede.</p>
+      </div>
+
+      <div class="user-profile">
+        <div class="dropdown is-right is-hoverable">
+          <div class="dropdown-trigger">
+            <span class="icon is-medium has-text-grey" style="cursor: pointer;">
+              <i class="fas fa-bell fa-lg"></i>
+            </span>
+          </div>
+        </div>
+        <div style="width: 1px; height: 30px; background: #eee; margin: 0 10px;"></div>
+        <img src="../../img/docente.jpg" alt="User" class="avatar">
+      </div>
+    </nav>
+
+    <!-- Notification List -->
+    <div class="notification-list">
+
+      <!-- Item 1 -->
+      <div class="notification-item type-success">
+        <div class="notif-icon success">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="notif-content">
+          <div class="is-flex is-justify-content-space-between">
+            <h4 class="notif-title">Evento Confirmado</h4>
+            <span class="notif-date">24/08/2025</span>
+          </div>
+          <p class="notif-message">Tu inscripción al Día del Deporte fue exitosa.</p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="notification-item type-warning">
+        <div class="notif-icon warning">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="notif-content">
+          <div class="is-flex is-justify-content-space-between">
+            <h4 class="notif-title">Cambio de Horario</h4>
+            <span class="notif-date">23/08/2025</span>
+          </div>
+          <p class="notif-message">El evento "Feria de Ciencias" cambió a las 3:00 pm.</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="notification-item type-danger">
+        <div class="notif-icon danger">
+          <i class="fas fa-calendar-day"></i>
+        </div>
+        <div class="notif-content">
+          <div class="is-flex is-justify-content-space-between">
+            <h4 class="notif-title">Recordatorio</h4>
+            <span class="notif-date">17/08/2025</span>
+          </div>
+          <p class="notif-message">Mañana se realizará la Reunión de Padres de Familia.</p>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="notification-item type-info">
+        <div class="notif-icon info">
+          <i class="fas fa-bell"></i>
+        </div>
+        <div class="notif-content">
+          <div class="is-flex is-justify-content-space-between">
+            <h4 class="notif-title">Nueva Notificación</h4>
+            <span class="notif-date">15/08/2025</span>
+          </div>
+          <p class="notif-message">Se abrió inscripción para el Curso de Arte.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+</html>

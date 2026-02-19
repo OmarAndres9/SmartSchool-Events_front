@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Configuración</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Fondo menú lateral */
+    .menu-aside {
+      background-color: #2e7d32;
+      color: white;
+      padding: 20px;
+      height: 100%;
+      border-radius: 8px;
+    }
+    .menu-aside .button {
+      background-color: #43a047;
+      color: white;
+      border: none;
+    }
+    .menu-aside .button:hover {
+      background-color: #2e7d32;
+    }
+
+    /* Fondo sección derecha */
+    .config-col {
+      background-color: #e8f5e9;
+      padding: 25px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+
+        <!-- MENU IZQUIERDO -->
+        <div class="column is-one-quarter">
+          <aside class="menu menu-aside">
+
+            <p class="menu-label has-text-white">Menú</p>
+            <ul class="menu-list">
+
+              <li>
+                <a href="../home/home.html"
+                   class="button is-fullwidth mb-2">
+                  <i class="fas fa-home"></i>&nbsp; Inicio
+                </a>
+              </li>
+
+              <li>
+                <a href="../dashboard/index.html"
+                   class="button is-fullwidth mb-2">
+                  <i class="fas fa-calendar-alt"></i>&nbsp; Agenda Escolar
+                </a>
+              </li>
+
+              <li>
+                <a href="../event/event.html"
+                   class="button is-fullwidth mb-2">
+                  <i class="fas fa-star"></i>&nbsp; Evento
+                </a>
+              </li>
+
+              <li>
+                <a href="../users/users.html"
+                   class="button is-fullwidth mb-2">
+                  <i class="fas fa-users"></i>&nbsp; Usuarios
+                </a>
+              </li>
+
+              <li>
+                <a href="../notifications/notifications.html"
+                   class="button is-fullwidth mb-2">
+                  <i class="fas fa-bell"></i>&nbsp; Notificaciones
+                </a>
+              </li>
+
+              <li>
+                <a href="../logistics/logistics.html"
+                   class="button is-fullwidth mb-2">
+                  <i class="fas fa-truck"></i>&nbsp; Logística
+                </a>
+              </li>
+            </ul>
+
+            <hr>
+
+            <p class="menu-label has-text-white">Eventos Destacados</p>
+            <p class="has-text-white is-size-7">Feria de Ciencias – 1 de septiembre</p>
+
+            <hr>
+
+            <p class="menu-label has-text-white">Evento No inscrito</p>
+            <button class="button is-link is-small">
+              Banda Escolar – 5 de octubre
+            </button>
+
+          </aside>
+        </div>
+
+        <!-- COLUMNA DERECHA: CONFIGURACIÓN -->
+        <div class="column config-col">
+          <h1 class="title has-text-success">Configuración</h1>
+          <p class="subtitle">Personaliza tu experiencia</p>
+
+          <!-- Box Perfil -->
+          <div class="box mb-4">
+            <p><strong>Perfil</strong></p>
+            <p>Edita tu información personal</p>
+            <button class="button is-success mt-2">Editar Perfil</button>
+          </div>
+
+          <!-- Box Preferencias -->
+          <div class="box mb-4">
+            <p><strong>Preferencias</strong></p>
+            <p>Cambia el idioma, tema o accesibilidad</p>
+            <button class="button is-success mt-2">Configurar</button>
+          </div>
+
+          <!-- Box Notificaciones -->
+          <div class="box mb-4">
+            <p><strong>Notificaciones</strong></p>
+            <p>Elige cómo recibir alertas</p>
+            <button class="button is-success mt-2">Gestionar</button>
+          </div>
+
+          <!-- Box Seguridad -->
+          <div class="box mb-4">
+            <p><strong>Seguridad</strong></p>
+            <p>Actualiza tu contraseña y privacidad</p>
+            <button class="button is-success mt-2">Actualizar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
