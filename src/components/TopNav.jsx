@@ -1,16 +1,22 @@
+import { formToJSON } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const TopNav = ({ title, subtitle }) => {
     const navigate = useNavigate();
-    const [user, setUser] = useState({ nombre: 'Usuario', rol: 'Invitado' });
+    const [nameUser, setNameUser] = useState("");
+    const [rolUser, setRolUser] = useState("");
+
 
     useEffect(() => {
-        // Cargar información del usuario desde localStorage si existe
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             try {
-                setUser(JSON.parse(storedUser));
+                console.log("El usuario es ")
+                let usuario = JSON.parse(storedUser);
+                console.log(usuario);
+                setNameUser(usuario.name)
+                // setRolUser(usuario)
             } catch (e) {
                 console.error('Error parseando user de localStorage', e);
             }
@@ -45,13 +51,13 @@ const TopNav = ({ title, subtitle }) => {
                 <div className="is-flex is-align-items-center dropdown is-right is-hoverable">
                     <div className="dropdown-trigger is-flex is-align-items-center" style={{ cursor: 'pointer' }}>
                         <div className="has-text-right mr-3 is-hidden-mobile">
-                            <strong className="is-block has-text-dark">{user.nombre}</strong>
-                            <small className="has-text-grey">{user.rol}</small>
+                            <strong className="is-block has-text-dark">{nameUser}</strong>
+                            {/* <small className="has-text-grey">{user.rol}</small> */}
                         </div>
                         {/* Si tienes una URL de imagen real, reemplázala aquí */}
-                        <div className="avatar" style={{ background: 'var(--primary-color)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                            {user.nombre.charAt(0)}
-                        </div>
+                        {/* <div className="avatar" style={{ background: 'var(--primary-color)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                            {nameUser}
+                        </div> */}
                     </div>
 
                     <div className="dropdown-menu" id="dropdown-menu" role="menu">
