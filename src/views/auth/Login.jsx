@@ -8,7 +8,7 @@ import '../../assets/dashboard.css';
 const Login = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        username: '',
+        email: '',
         password: '',
         rol: ''
     });
@@ -30,7 +30,7 @@ const Login = () => {
         try {
             // Ajuste para emparejar con Laravel. Generalmente recibe email/password o username/password
             const response = await api.post('/login', {
-                correo: formData.username, // Podría ser email o username según tu backend
+                email: formData.email, // Ajustado de correo/username a email
                 password: formData.password
                 // role: formData.rol (Enviar si el backend lo requiere)
             });
@@ -38,7 +38,7 @@ const Login = () => {
             // Guardamos el token
             if (response.data.token) {
                 localStorage.setItem('auth_token', response.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.user || { nombre: formData.username, rol: formData.rol }));
+                localStorage.setItem('user', JSON.stringify(response.data.user || { nombre: formData.email, rol: formData.rol }));
                 navigate('/dashboard');
             } else {
                 setErrorMsg('No se recibió token del servidor. Respuesta inusual.');
@@ -84,14 +84,14 @@ const Login = () => {
 
                         <form onSubmit={handleSubmit}>
                             <div className="input-group">
-                                <label htmlFor="username" className="input-label">Usuario / Correo</label>
+                                <label htmlFor="email" className="input-label">Correo Electrónico</label>
                                 <input
-                                    type="text"
-                                    id="username"
-                                    name="username"
+                                    type="email"
+                                    id="email"
+                                    name="email"
                                     className="custom-input"
-                                    placeholder="Ingresa tu usuario o correo"
-                                    value={formData.username}
+                                    placeholder="Ingresa tu correo"
+                                    value={formData.email}
                                     onChange={handleChange}
                                     required
                                 />

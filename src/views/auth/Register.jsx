@@ -5,10 +5,10 @@ import api from '../../services/api';
 const Register = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        nombre: '',
+        name: '',
         documento: '',
         tipo_documento: 'CC', // Por defecto
-        correo: '',
+        email: '',
         password: '',
         password_confirmation: '',
         rol: ''
@@ -74,7 +74,7 @@ const Register = () => {
                             <div className="field">
                                 <label className="label">Nombre Completo</label>
                                 <div className="control">
-                                    <input className="input" type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+                                    <input className="input" type="text" name="name" value={formData.name} onChange={handleChange} required />
                                 </div>
                             </div>
 
@@ -103,7 +103,7 @@ const Register = () => {
                             <div className="field">
                                 <label className="label">Correo Electrónico</label>
                                 <div className="control">
-                                    <input className="input" type="email" name="correo" value={formData.correo} onChange={handleChange} required />
+                                    <input className="input" type="email" name="email" value={formData.email} onChange={handleChange} required />
                                 </div>
                             </div>
 
