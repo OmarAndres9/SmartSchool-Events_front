@@ -17,19 +17,29 @@ body {
   background-color: var(--bg-color);
   font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   min-height: 100vh;
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.app-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0px;
+  position:relative;
 }
 
 /* Sidebar Styles */
 .sidebar {
-  background: linear-gradient(180deg, var(--dark-green) 0%, var(--primary-color) 100%);
+  background: linear-gradient(180deg, #000000 0%, #2e7d32 100%);
   color: var(--white);
-  height: 100vh;
-  position: fixed;
+  min-height: 100vh;
   width: 260px;
   overflow-y: auto;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  z-index: 1000;
 }
 
 .sidebar-header {
@@ -82,16 +92,23 @@ body {
 
 /* Main Content Area */
 .main-content {
-  margin-left: 260px;
+  margin: 0 auto;
   padding: 20px 40px;
+  position:relative;
 }
 
 /* Top Navigation */
 .top-nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 20px 0 40px;
+  align-items: anchor-center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--bg-color);
+  height: 100px;
 }
 
 .welcome-msg h2 {
@@ -120,6 +137,11 @@ body {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.page-content {
+ margin-top: 100px;
+
 }
 
 /* Dashboard Widgets */
@@ -205,7 +227,7 @@ body {
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
   padding: 25px;
-  height: 100%;
+  height: auto;
 }
 
 .card-header {

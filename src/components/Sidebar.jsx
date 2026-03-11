@@ -47,9 +47,12 @@ const Sidebar = () => {
                 </NavLink>
 
                 <div className="sidebar-section-title">ACCIONES RÁPIDAS</div>
-                <a href="#" className="menu-link">
-                    <i className="fas fa-plus-circle"></i> Nuevo Evento
-                </a>
+                <NavLink
+                    to="/events"
+                    className={({ isActive }) => (isActive ? 'menu-link active' : 'menu-link')}
+                >
+                    <i className="fas fa-bell"></i> Crear Evento
+                </NavLink>
                 <a href="#" className="menu-link">
                     <i className="fas fa-file-export"></i> Reportes
                 </a>
