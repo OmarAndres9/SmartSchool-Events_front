@@ -1,36 +1,60 @@
+/**
+ * routes/AppRouter.jsx
+ * Enrutador principal de la aplicación.
+ * Incluye las rutas nuevas: /mis-eventos y /reports
+ */
+
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-// Import local views
-import Login from '../views/auth/Login';
+// ─── Landing page ────────────────────────────────────────────────────────────
+import Landing  from '../views/landing/Landing';
+
+// ─── Vistas de autenticación ──────────────────────────────────────────────────
+import Login    from '../views/auth/Login';
 import Register from '../views/auth/Register';
-import Dashboard from '../views/dashboard/Dashboard';
-import EventsList from '../views/events/EventsList';
-import Logistics from '../views/logistics/Logistics';
+
+// ─── Vistas del dashboard ─────────────────────────────────────────────────────
+import Dashboard    from '../views/dashboard/Dashboard';
+import EventsList   from '../views/events/EventsList';
+import MisEventos   from '../views/myevents/MisEventos';
+import Reportes     from '../views/reports/Reportes';
+import Logistics    from '../views/logistics/Logistics';
 import Notifications from '../views/notifications/Notifications';
-import Settings from '../views/settings/Settings';
-import UsersList from '../views/users/UsersList';
+import Settings     from '../views/settings/Settings';
+import UsersList    from '../views/users/UsersList';
 
-const AppRouter = () => {
-    return (
-        <Router>
-            <Routes>
-                {/* Auth Routes */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-
-                {/* Main Routes */}
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/events" element={<EventsList />} />
-                <Route path="/logistics" element={<Logistics />} />
-                <Route path="/notifications" element={<Notifications />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/users" element={<UsersList />} />
-
-                {/* Fallback - Redirect to login for now */}
-                <Route path="*" element={<Navigate to="/login" replace />} />
-            </Routes>
-        </Router>
-    );
+/**
+ * Guard simple: redirige al login si no hay token.
+ * En producción usar un componente PrivateRoute más robusto.
+ */
+const RequireAuth = ({ children }) => {
+  const token = localStorage.getItem('auth_token');
+  return token ? children : <Navigate to="/login" replace />;
 };
+
+const AppRouter = () => (
+  <Router>
+    <Routes>
+      {/* ── Rutas públicas ── */}
+      <Route path="/"         element={<Landing />} />
+      <Route path="/login"    element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* ── Rutas protegidas ── */}
+      <Route path="/dashboard"    element={<RequireAuth><Dashboard /></RequireAuth>} />
+      <Route path="/events"       element={<RequireAuth><EventsList /></RequireAuth>} />
+      <Route path="/mis-eventos"  element={<RequireAuth><MisEventos /></RequireAuth>} />
+      <Route path="/reports"      element={<RequireAuth><Reportes /></RequireAuth>} />
+      <Route path="/logistics"    element={<RequireAuth><Logistics /></RequireAuth>} />
+      <Route path="/notifications" element={<RequireAuth><Notifications /></RequireAuth>} />
+      <Route path="/settings"     element={<RequireAuth><Settings /></RequireAuth>} />
+      <Route path="/users"        element={<RequireAuth><UsersList /></RequireAuth>} />
+
+      {/* ── Fallback ── */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  </Router>
+);
 
 export default AppRouter;

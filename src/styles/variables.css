@@ -1,0 +1,70 @@
+/**
+ * styles/variables.css
+ * Variables CSS globales del sistema SmartSchool.
+ * Importar este archivo una sola vez en main.jsx o index.css.
+ */
+
+:root {
+  /* ─── Paleta principal ──────────────────────── */
+  --color-primary:       #2e7d32;
+  --color-primary-light: #4caf50;
+  --color-primary-dark:  #1b5e20;
+  --color-accent:        #81c784;
+
+  /* ─── Neutros ───────────────────────────────── */
+  --color-bg:          #f4f6f8;
+  --color-surface:     #ffffff;
+  --color-border:      #e0e0e0;
+  --color-text:        #212121;
+  --color-text-muted:  #757575;
+  --color-text-light:  #bdbdbd;
+
+  /* ─── Estados ───────────────────────────────── */
+  --color-success:  #2e7d32;
+  --color-warning:  #f57c00;
+  --color-error:    #c62828;
+  --color-info:     #1565c0;
+
+  /* ─── Badges de tipo de evento ──────────────── */
+  --badge-academico:  #1565c0;
+  --badge-cultural:   #6a1b9a;
+  --badge-deportivo:  #2e7d32;
+  --badge-recreativo: #e65100;
+  --badge-examen:     #c62828;
+
+  /* ─── Badges de estado ──────────────────────── */
+  --badge-activo:    #2e7d32;
+  --badge-pendiente: #f57c00;
+  --badge-cancelado: #c62828;
+  --badge-finalizado:#546e7a;
+
+  /* ─── Tipografía ────────────────────────────── */
+  --font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --font-sm:   0.813rem;  /* 13px */
+  --font-base: 0.938rem;  /* 15px */
+  --font-md:   1.063rem;  /* 17px */
+  --font-lg:   1.25rem;   /* 20px */
+  --font-xl:   1.5rem;    /* 24px */
+
+  /* ─── Espaciado ─────────────────────────────── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+
+  /* ─── Bordes y sombras ──────────────────────── */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-full: 999px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+
+  /* ─── Layout ────────────────────────────────── */
+  --sidebar-width: 260px;
+  --topnav-height: 64px;
+}

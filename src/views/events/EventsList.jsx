@@ -1,144 +1,193 @@
+/**
+ * views/events/EventsList.jsx
+ * Formulario de creación de eventos — POST /api/eventos.
+ * Sin datos hardcodeados: tipos de evento y modalidades son constantes
+ * semánticas del dominio escolar (no vienen del backend porque son enums fijos).
+ */
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
-import api from '../../services/api';
+import eventosService from '../../services/eventosService';
+
+const TIPOS_EVENTO  = ['Academico', 'Cultural', 'Deportivo', 'Recreativo'];
+const MODALIDADES   = ['Presencial', 'Virtual', 'Mixta'];
+
+const FORM_INICIAL = {
+  nombre: '', tipo_evento: '', fecha_inicio: '', fecha_fin: '',
+  lugar: '', descripcion: '', modalidad: 'Presencial', grupo_destinado: '',
+};
 
 const EventsList = () => {
-    const [formData, setFormData] = useState({
-        nombre: '',
-        tipo_evento: '',
-        fecha_inicio: '',
-        fecha_fin: '', // Opcional o usar fecha_inicio
-        lugar: '',
-        descripcion: '',
-        modalidad: 'Presencial',
-        grupo_destinado: ''
-    });
+  const navigate = useNavigate();
 
-    const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState(FORM_INICIAL);
+  const [loading,  setLoading]  = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+    setSuccessMsg('');
 
-        try {
-            // Endpoint asumiendo el esquema ER que compartiste
-            const response = await api.post('/eventos', formData);
-            alert('Evento creado exitosamente');
-            // Reset form
-            setFormData({
-                nombre: '', tipo_evento: '', fecha_inicio: '', fecha_fin: '', lugar: '', descripcion: '', modalidad: 'Presencial', grupo_destinado: ''
-            });
-        } catch (error) {
-            console.error('Error creando evento', error);
-            alert('Error: ' + (error.response?.data?.message || 'No se pudo crear el evento'));
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+      await eventosService.create(formData);
+      setSuccessMsg('¡Evento creado exitosamente! Redirigiendo a Mis Eventos...');
+      setFormData(FORM_INICIAL);
+      setTimeout(() => navigate('/mis-eventos'), 2000);
+    } catch (error) {
+      setErrorMsg(
+        error.response?.data?.message ||
+        error.response?.data?.errors
+          ? Object.values(error.response.data.errors).flat().join(' · ')
+          : 'No se pudo crear el evento. Verifica los datos.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <DashboardLayout
-            title="Crear Nuevo Evento"
-            subtitle="Completa la información para registrar una actividad en el calendario institucional."
-        >
-            <form onSubmit={handleSubmit}>
-                <section className="form-section">
-                    <h3 className="form-section-title"><i className="fas fa-info-circle"></i> 1. Datos Generales</h3>
-                    <div className="form-grid">
-                        <div className="input-group">
-                            <label className="input-label">Nombre del evento</label>
-                            <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} className="custom-input" placeholder="Ej. Feria de Ciencias" required />
-                        </div>
-                        <div className="input-group">
-                            <label className="input-label">Tipo del evento</label>
-                            <div className="select is-fullwidth">
-                                <select name="tipo_evento" value={formData.tipo_evento} onChange={handleChange} className="custom-input p-0 px-3" required>
-                                    <option value="">Seleccione un tipo</option>
-                                    <option value="Academico">Académico</option>
-                                    <option value="Cultural">Cultural</option>
-                                    <option value="Deportivo">Deportivo</option>
-                                    <option value="Recreativo">Recreativo</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+  return (
+    <DashboardLayout
+      title="Crear Nuevo Evento"
+      subtitle="Completa la información para registrar una actividad en el calendario institucional."
+    >
+      {errorMsg   && <div className="notification is-danger  is-light mb-4">{errorMsg}</div>}
+      {successMsg && <div className="notification is-success is-light mb-4">{successMsg}</div>}
 
-                <section className="form-section">
-                    <h3 className="form-section-title"><i className="fas fa-clock"></i> 2. Programación</h3>
-                    <div className="form-grid">
-                        <div className="input-group">
-                            <label className="input-label">Fecha Inicio (u Hora única)</label>
-                            {/* En HTML type="datetime-local" mapea perfecto con el datetime del DB */}
-                            <input type="datetime-local" name="fecha_inicio" value={formData.fecha_inicio} onChange={handleChange} className="custom-input" required />
-                        </div>
-                        <div className="input-group">
-                            <label className="input-label">Fecha Fin</label>
-                            <input type="datetime-local" name="fecha_fin" value={formData.fecha_fin} onChange={handleChange} className="custom-input" />
-                        </div>
-                        <div className="input-group">
-                            <label className="input-label">Ubicación / Lugar</label>
-                            <input type="text" name="lugar" value={formData.lugar} onChange={handleChange} className="custom-input" placeholder="Ej. Auditorio Principal" required />
-                        </div>
-                    </div>
-                </section>
+      <form onSubmit={handleSubmit}>
+        {/* ── 1. Datos Generales ── */}
+        <section className="form-section">
+          <h3 className="form-section-title">
+            <i className="fas fa-info-circle" /> 1. Datos Generales
+          </h3>
+          <div className="form-grid">
+            <div className="input-group">
+              <label className="input-label">Nombre del evento</label>
+              <input
+                type="text" name="nombre" value={formData.nombre}
+                onChange={handleChange} className="custom-input"
+                placeholder="Ej. Feria de Ciencias" required
+              />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Tipo del evento</label>
+              <select
+                name="tipo_evento" value={formData.tipo_evento}
+                onChange={handleChange} className="custom-input" required
+              >
+                <option value="">Seleccione un tipo</option>
+                {TIPOS_EVENTO.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </section>
 
-                <section className="form-section">
-                    <h3 className="form-section-title"><i className="fas fa-align-left"></i> 3. Descripción</h3>
-                    <div className="input-group">
-                        <label className="input-label">Detalles del evento</label>
-                        <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} className="custom-input" rows="4" placeholder="Describa brevemente el evento" required></textarea>
-                    </div>
-                </section>
+        {/* ── 2. Programación ── */}
+        <section className="form-section">
+          <h3 className="form-section-title">
+            <i className="fas fa-clock" /> 2. Programación
+          </h3>
+          <div className="form-grid">
+            <div className="input-group">
+              <label className="input-label">Fecha y hora de inicio</label>
+              <input
+                type="datetime-local" name="fecha_inicio"
+                value={formData.fecha_inicio} onChange={handleChange}
+                className="custom-input" required
+              />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Fecha y hora de fin</label>
+              <input
+                type="datetime-local" name="fecha_fin"
+                value={formData.fecha_fin} onChange={handleChange}
+                className="custom-input"
+              />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Ubicación / Lugar</label>
+              <input
+                type="text" name="lugar" value={formData.lugar}
+                onChange={handleChange} className="custom-input"
+                placeholder="Ej. Auditorio Principal" required
+              />
+            </div>
+          </div>
+        </section>
 
-                <section className="form-section">
-                    <h3 className="form-section-title"><i className="fas fa-users-cog"></i> 4. Control y Aforo</h3>
-                    <div className="form-grid">
-                        <div className="input-group">
-                            <label className="input-label">Modalidad</label>
-                            <div className="select is-fullwidth">
-                                <select name="modalidad" value={formData.modalidad} onChange={handleChange} className="custom-input p-0 px-3">
-                                    <option value="Presencial">Presencial</option>
-                                    <option value="Virtual">Virtual</option>
-                                    <option value="Mixta">Mixta</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="input-group">
-                            <label className="input-label">Grupo Destinado</label>
-                            <input type="text" name="grupo_destinado" value={formData.grupo_destinado} onChange={handleChange} className="custom-input" placeholder="Ej. Todos, Grado 10, Docentes" />
-                        </div>
-                    </div>
-                </section>
+        {/* ── 3. Descripción ── */}
+        <section className="form-section">
+          <h3 className="form-section-title">
+            <i className="fas fa-align-left" /> 3. Descripción
+          </h3>
+          <div className="input-group">
+            <label className="input-label">Detalles del evento</label>
+            <textarea
+              name="descripcion" value={formData.descripcion}
+              onChange={handleChange} className="custom-input"
+              rows="4" placeholder="Describe brevemente el evento..." required
+            />
+          </div>
+        </section>
 
-                <section className="form-section">
-                    <h3 className="form-section-title"><i className="fas fa-image"></i> 5. Multimedia</h3>
-                    <div className="file has-name is-fullwidth">
-                        <label className="file-label">
-                            <input className="file-input" type="file" name="imagen" />
-                            <span className="file-cta">
-                                <span className="file-icon"><i className="fas fa-upload"></i></span>
-                                <span className="file-label">Seleccionar imagen...</span>
-                            </span>
-                            <span className="file-name">No se ha seleccionado archivo</span>
-                        </label>
-                    </div>
-                </section>
+        {/* ── 4. Control y Aforo ── */}
+        <section className="form-section">
+          <h3 className="form-section-title">
+            <i className="fas fa-users-cog" /> 4. Control y Aforo
+          </h3>
+          <div className="form-grid">
+            <div className="input-group">
+              <label className="input-label">Modalidad</label>
+              <select
+                name="modalidad" value={formData.modalidad}
+                onChange={handleChange} className="custom-input"
+              >
+                {MODALIDADES.map((m) => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+              </select>
+            </div>
+            <div className="input-group">
+              <label className="input-label">Grupo Destinado</label>
+              <input
+                type="text" name="grupo_destinado"
+                value={formData.grupo_destinado} onChange={handleChange}
+                className="custom-input"
+                placeholder="Ej. Todos, Grado 10, Docentes"
+              />
+            </div>
+          </div>
+        </section>
 
-                <div className="buttons is-right">
-                    <button type="button" className="button is-light">Cancelar</button>
-                    <button type="submit" className={`button is-success ${loading ? 'is-loading' : ''}`}>Guardar y Publicar</button>
-                </div>
-            </form>
-        </DashboardLayout>
-    );
+        {/* ── Acciones ── */}
+        <div className="buttons is-right">
+          <button
+            type="button"
+            className="button is-light"
+            onClick={() => navigate('/mis-eventos')}
+            disabled={loading}
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            className={`button is-success ${loading ? 'is-loading' : ''}`}
+            disabled={loading}
+          >
+            Guardar y Publicar
+          </button>
+        </div>
+      </form>
+    </DashboardLayout>
+  );
 };
 
 export default EventsList;

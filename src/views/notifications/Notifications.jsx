@@ -1,82 +1,91 @@
-import React, { useState, useEffect } from 'react';
+/**
+ * views/notifications/Notifications.jsx
+ * Notificaciones consumidas dinámicamente desde GET /api/notificaciones.
+ * Respuesta backend (NotificacionesResource):
+ *   { id, titulo, mensaje, tipo, canal, fecha_creacion, id_usuario, id_evento }
+ */
+
+import React from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
-import api from '../../services/api';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import ErrorMessage from '../../components/ui/ErrorMessage';
+import EmptyState from '../../components/ui/EmptyState';
+import useNotificaciones from '../../hooks/useNotificaciones';
+
+/** Mapeo tipo → ícono FA y clase CSS */
+const TIPO_CONFIG = {
+  success: { icon: 'fa-check',                css: 'success', border: '#4CAF50' },
+  warning: { icon: 'fa-exclamation-triangle', css: 'warning', border: '#FFC107' },
+  danger:  { icon: 'fa-times',                css: 'danger',  border: '#F44336' },
+  info:    { icon: 'fa-info',                 css: 'info',    border: '#2196F3' },
+};
+
+const getTipoConfig = (tipo) =>
+  TIPO_CONFIG[tipo?.toLowerCase()] || TIPO_CONFIG.info;
 
 const Notifications = () => {
-    const [notifications, setNotifications] = useState([]);
-    const [loading, setLoading] = useState(true);
+  const { notificaciones, loading, error, refetch } = useNotificaciones();
 
-    useEffect(() => {
-        fetchNotifications();
-    }, []);
+  return (
+    <DashboardLayout
+      title="Centro de Notificaciones"
+      subtitle="Revisa alertas importantes, respuestas a tus solicitudes y avisos del sistema."
+    >
+      {/* ── Cabecera con botón actualizar ── */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+        <button className="button is-light is-small" onClick={refetch}>
+          <span className="icon"><i className="fas fa-sync-alt" /></span>
+          <span>Actualizar</span>
+        </button>
+      </div>
 
-    const fetchNotifications = async () => {
-        setLoading(true);
-        try {
-            const response = await api.get('/notificaciones'); // Basado en ERD
-            if (response.data && response.data.length > 0) {
-                setNotifications(response.data);
-            } else {
-                setDummyData();
-            }
-        } catch (error) {
-            console.error('Error fetching notifications:', error);
-            setDummyData();
-        } finally {
-            setLoading(false);
-        }
-    };
+      {loading && <LoadingSpinner message="Cargando notificaciones..." />}
+      {!loading && error && <ErrorMessage message={error} onRetry={refetch} />}
 
-    const setDummyData = () => {
-        setNotifications([
-            { id: 1, tipo: 'success', titulo: 'Evento Aprobado', mensaje: 'Feria de Ciencias ha sido aprobada por coordinación.', fecha_creacion: 'Hace 2 horas' },
-            { id: 2, tipo: 'warning', titulo: 'Recordatorio', mensaje: 'Debes presentar el informe mensual mañana.', fecha_creacion: 'Ayer' },
-            { id: 3, tipo: 'info', titulo: 'Nuevo Recurso', mensaje: 'El Salón Múltiple 2 ahora está disponible para reservas.', fecha_creacion: 'Hace 3 días' },
-            { id: 4, tipo: 'danger', titulo: 'Rechazo de solicitud', mensaje: 'La solicitud de Bus Escolar #2 no pudo ser tramitada.', fecha_creacion: '1 Semana' }
-        ]);
-    };
+      {!loading && !error && notificaciones.length === 0 && (
+        <EmptyState
+          icon="🔔"
+          title="Sin notificaciones"
+          description="No tienes nuevas notificaciones en este momento."
+        />
+      )}
 
-    const getIconClass = (tipo) => {
-        switch (tipo?.toLowerCase()) {
-            case 'success': return 'fa-check';
-            case 'warning': return 'fa-exclamation-triangle';
-            case 'danger': return 'fa-times';
-            default: return 'fa-info';
-        }
-    };
-
-    return (
-        <DashboardLayout
-            title="Centro de Notificaciones"
-            subtitle="Revisa alertas importantes, respuestas a tus solicitudes y avisos del sistema."
-        >
-            {loading ? (
-                <div className="has-text-centered my-6 py-6">
-                    <div className="loader is-loading is-size-1 mx-auto" style={{ height: '3rem', width: '3rem' }}></div>
-                    <p className="mt-3">Cargando notificaciones...</p>
+      {!loading && !error && notificaciones.length > 0 && (
+        <div className="notification-list mt-4" style={{ maxWidth: '800px' }}>
+          {notificaciones.map((notif) => {
+            const config = getTipoConfig(notif.tipo);
+            return (
+              <div
+                className={`notification-item type-${notif.tipo || 'info'}`}
+                key={notif.id}
+                style={{ borderLeftColor: config.border }}
+              >
+                <div className={`notif-icon ${config.css}`}>
+                  <i className={`fas ${config.icon}`} />
                 </div>
-            ) : (
-                <div className="notification-list mt-4" style={{ maxWidth: '800px' }}>
-                    {notifications.map(notif => (
-                        <div className={`notification-item type-${notif.tipo || 'info'}`} key={notif.id}>
-                            <div className={`notif-icon ${notif.tipo || 'info'}`}>
-                                <i className={`fas ${getIconClass(notif.tipo)}`}></i>
-                            </div>
-                            <div className="notif-content">
-                                <h4 className="notif-title">{notif.titulo}</h4>
-                                <p className="notif-message">{notif.mensaje}</p>
-                            </div>
-                            <div className="notif-date">{notif.fecha_creacion}</div>
-                        </div>
-                    ))}
-
-                    {notifications.length === 0 && (
-                        <p className="has-text-centered has-text-grey py-6">No tienes nuevas notificaciones en este momento.</p>
-                    )}
+                <div className="notif-content">
+                  <h4 className="notif-title">{notif.titulo || 'Sin título'}</h4>
+                  <p className="notif-message">{notif.mensaje || '—'}</p>
+                  {notif.canal && (
+                    <span style={{ fontSize: '0.75rem', color: '#aaa', marginTop: '4px', display: 'block' }}>
+                      Canal: {notif.canal}
+                    </span>
+                  )}
                 </div>
-            )}
-        </DashboardLayout>
-    );
+                <div className="notif-date">
+                  {notif.fecha_creacion
+                    ? new Date(notif.fecha_creacion).toLocaleDateString('es-CO', {
+                        day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit',
+                      })
+                    : '—'}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </DashboardLayout>
+  );
 };
 
 export default Notifications;

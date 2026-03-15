@@ -1,0 +1,46 @@
+/* layouts/DashboardLayout.module.css */
+
+.appLayout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+.mainWrapper {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+  min-width: 0;
+}
+
+.mainContent {
+  flex: 1;
+  padding: var(--space-xl);
+}
+
+/* ─── Tablet ────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .mainContent {
+    padding: var(--space-lg);
+  }
+}
+
+/* ─── Móvil: sidebar se convierte en drawer superpuesto ─────── */
+@media (max-width: 768px) {
+  .mainWrapper {
+    margin-left: 0;
+  }
+
+  .mainContent {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    padding: var(--space-sm);
+  }
+}

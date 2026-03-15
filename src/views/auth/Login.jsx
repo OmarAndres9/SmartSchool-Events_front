@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 
 // Require Dashboard CSS in all layouts (contains login custom styles)
-import '../../assets/dashboard.css';
 
 const Login = () => {
     const navigate = useNavigate();
