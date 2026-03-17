@@ -1,46 +1,55 @@
-/* layouts/DashboardLayout.module.css */
+/**
+ * layouts/DashboardLayout.module.css
+ * Layout principal — Mobile-first
+ */
 
+/* ─── Layout raíz ─────────────────────────────────────────── */
 .appLayout {
   display: flex;
   min-height: 100vh;
   background: var(--color-bg);
 }
 
+/* ─── Wrapper del contenido principal ─────────────────────── */
 .mainWrapper {
   flex: 1;
-  margin-left: var(--sidebar-width);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   overflow-x: hidden;
   min-width: 0;
+  /* En móvil no hay margen, el sidebar es un drawer */
+  margin-left: 0;
+  transition: margin-left var(--transition-slow);
 }
 
+/* En desktop, el sidebar está siempre visible */
+@media (min-width: 769px) {
+  .mainWrapper {
+    margin-left: var(--sidebar-width);
+  }
+}
+
+/* ─── Contenido de página ─────────────────────────────────── */
 .mainContent {
   flex: 1;
-  padding: var(--space-xl);
+  padding: var(--space-4);
+  animation: fadeIn 0.2s ease;
 }
 
-/* ─── Tablet ────────────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .mainContent {
-    padding: var(--space-lg);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── Móvil: sidebar se convierte en drawer superpuesto ─────── */
-@media (max-width: 768px) {
-  .mainWrapper {
-    margin-left: 0;
-  }
-
-  .mainContent {
-    padding: var(--space-md);
-  }
+@media (min-width: 640px) {
+  .mainContent { padding: var(--space-5); }
 }
 
-@media (max-width: 480px) {
-  .mainContent {
-    padding: var(--space-sm);
-  }
+@media (min-width: 1024px) {
+  .mainContent { padding: var(--space-6) var(--space-8); }
+}
+
+@media (min-width: 1280px) {
+  .mainContent { padding: var(--space-8) var(--space-10); }
 }

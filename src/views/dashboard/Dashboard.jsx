@@ -9,10 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorMessage from '../../components/ui/ErrorMessage';
+import CalendarioEventos from '../../components/ui/CalendarioEventos';
 import useEventos from '../../hooks/useEventos';
 import useNotificaciones from '../../hooks/useNotificaciones';
 import useUsuarios from '../../hooks/useUsuarios';
-import { formatDateShort } from '../../utils/dateUtils';
 
 /** Etiqueta de tipo de evento */
 const TipoBadge = ({ tipo }) => {
@@ -81,20 +81,23 @@ const Dashboard = () => {
 
       {/* ── Contenido principal ── */}
       <div className="content-split">
-        {/* Calendario Google */}
+        {/* Calendario con eventos reales */}
         <div className="card-box">
           <div className="card-header">
             <h3 className="card-title">Calendario Académico</h3>
-            <button className="button is-small is-light">Ver Completo</button>
+            <button
+              className="button is-small is-primary is-light"
+              onClick={refetchEv}
+              title="Actualizar eventos"
+            >
+              <i className="fas fa-sync-alt" />
+            </button>
           </div>
-          <div className="calendar-container">
-            <iframe
-              title="Google Calendar"
-              src="https://calendar.google.com/calendar/embed?src=en.usa%23holiday%40group.v.calendar.google.com&ctz=America%2FBogota"
-              scrolling="no"
-              frameBorder="0"
-            />
-          </div>
+          {evLoading && <LoadingSpinner message="Cargando calendario..." />}
+          {evError   && <ErrorMessage message={evError} onRetry={refetchEv} />}
+          {!evLoading && !evError && (
+            <CalendarioEventos eventos={eventos} />
+          )}
         </div>
 
         {/* Lista de próximos eventos dinámica */}

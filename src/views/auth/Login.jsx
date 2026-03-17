@@ -1,155 +1,139 @@
+/**
+ * views/auth/Login.jsx
+ * Login — diseño responsive mobile-first con módulo CSS propio.
+ */
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
-
-// Require Dashboard CSS in all layouts (contains login custom styles)
+import styles from './Auth.module.css';
 
 const Login = () => {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        rol: ''
-    });
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState('');
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: '', password: '', rol: '' });
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+  const handleChange = (e) =>
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setErrorMsg('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMsg('');
+    try {
+      const response = await api.post('/login', {
+        email:    formData.email,
+        password: formData.password,
+      });
+      if (response.data.token) {
+        localStorage.setItem('auth_token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user || { nombre: formData.email, rol: formData.rol }));
+        navigate('/dashboard');
+      } else {
+        setErrorMsg('No se recibió token del servidor.');
+      }
+    } catch (error) {
+      setErrorMsg(
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'Verifica tus credenciales e intenta de nuevo.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        try {
-            // Ajuste para emparejar con Laravel. Generalmente recibe email/password o username/password
-            const response = await api.post('/login', {
-                email: formData.email, // Ajustado de correo/username a email
-                password: formData.password
-                // role: formData.rol (Enviar si el backend lo requiere)
-            });
+  return (
+    <div className={styles.page}>
+      <div className={styles.card}>
 
-            // Guardamos el token
-            if (response.data.token) {
-                localStorage.setItem('auth_token', response.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.user || { nombre: formData.email, rol: formData.rol }));
-                navigate('/dashboard');
-            } else {
-                setErrorMsg('No se recibió token del servidor. Respuesta inusual.');
-            }
-        } catch (error) {
-            console.error('Error de login:', error);
-            setErrorMsg(
-                error.response?.data?.message ||
-                error.response?.data?.error ||
-                'Ocurrió un error al intentar iniciar sesión. Verifica tus credenciales.'
-            );
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div style={{
-            background: 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px',
-            minHeight: '100vh',
-            margin: 0
-        }}>
-            <div className="login-card">
-                <div className="login-left">
-                    <i className="fas fa-graduation-cap fa-4x" style={{ marginBottom: '20px' }}></i>
-                    <h1>SmartSchool</h1>
-                    <p>Gestión escolar inteligente para tu institución.</p>
-                </div>
-
-                <div className="login-right">
-                    <div className="login-form">
-                        <h2>Bienvenido 👋</h2>
-
-                        {errorMsg && (
-                            <div className="notification is-danger is-light mb-4">
-                                {errorMsg}
-                            </div>
-                        )}
-
-                        <form onSubmit={handleSubmit}>
-                            <div className="input-group">
-                                <label htmlFor="email" className="input-label">Correo Electrónico</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    className="custom-input"
-                                    placeholder="Ingresa tu correo"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="input-group">
-                                <label htmlFor="password" className="input-label">Contraseña</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    className="custom-input"
-                                    placeholder="••••••••"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="input-group">
-                                <label htmlFor="rol" className="input-label">Rol</label>
-                                <div className="select is-fullwidth">
-                                    <select
-                                        id="rol"
-                                        name="rol"
-                                        className="custom-input p-0 px-3"
-                                        value={formData.rol}
-                                        onChange={handleChange}
-                                        required
-                                    >
-                                        <option value="" disabled>Selecciona tu rol</option>
-                                        <option value="estudiante">Estudiante</option>
-                                        <option value="docente">Docente/Profesor</option>
-                                        <option value="acudiente">Acudiente</option>
-                                        <option value="administrador">Administrador</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <button
-                                type="submit"
-                                className={`btn-primary ${loading ? 'is-loading' : ''}`}
-                                disabled={loading}
-                            >
-                                Ingresar
-                            </button>
-                        </form>
-
-                        <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '0.9rem', color: '#666' }}>
-                            <p><a href="#" style={{ color: 'var(--secondary-color)', textDecoration: 'none' }}>¿Olvidaste tu contraseña?</a></p>
-                            <p style={{ marginTop: '10px' }}>
-                                ¿No tienes cuenta? <Link to="/register" style={{ color: 'var(--secondary-color)', fontWeight: '600' }}>Regístrate</Link>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {/* ── Panel de marca ── */}
+        <div className={styles.brand}>
+          <span className={styles.brandIcon}>🎓</span>
+          <h1 className={styles.brandName}>SmartSchool</h1>
+          <p className={styles.brandSub}>Gestión escolar inteligente para tu institución.</p>
         </div>
-    );
+
+        {/* ── Panel del formulario ── */}
+        <div className={styles.formPanel}>
+          <h2 className={styles.formTitle}>Bienvenido 👋</h2>
+          <p className={styles.formSub}>Inicia sesión para continuar</p>
+
+          {errorMsg && (
+            <div className={styles.alert} role="alert">
+              <span>⚠️</span> {errorMsg}
+            </div>
+          )}
+
+          <form className={styles.form} onSubmit={handleSubmit} noValidate>
+            <div className={styles.field}>
+              <label className={styles.label} htmlFor="email">Correo Electrónico</label>
+              <input
+                type="email" id="email" name="email"
+                className={styles.input}
+                placeholder="correo@institución.edu.co"
+                value={formData.email}
+                onChange={handleChange}
+                autoComplete="email"
+                required
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label} htmlFor="password">Contraseña</label>
+              <input
+                type="password" id="password" name="password"
+                className={styles.input}
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+                required
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label className={styles.label} htmlFor="rol">Rol</label>
+              <select
+                id="rol" name="rol"
+                className={styles.input}
+                value={formData.rol}
+                onChange={handleChange}
+                required
+              >
+                <option value="" disabled>Selecciona tu rol</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="docente">Docente / Profesor</option>
+                <option value="acudiente">Acudiente</option>
+                <option value="administrador">Administrador</option>
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={loading}
+            >
+              {loading ? (
+                <><span className={styles.spinner} /> Ingresando...</>
+              ) : (
+                'Ingresar'
+              )}
+            </button>
+          </form>
+
+          <div className={styles.footer}>
+            <a href="#" className={styles.footerLink}>¿Olvidaste tu contraseña?</a>
+            <p>
+              ¿No tienes cuenta?{' '}
+              <Link to="/register" className={styles.footerLink}>Regístrate</Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Login;

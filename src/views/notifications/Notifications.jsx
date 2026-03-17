@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorMessage from '../../components/ui/ErrorMessage';
@@ -32,11 +33,20 @@ const Notifications = () => {
       subtitle="Revisa alertas importantes, respuestas a tus solicitudes y avisos del sistema."
     >
       {/* ── Cabecera con botón actualizar ── */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
-        <button className="button is-light is-small" onClick={refetch}>
-          <span className="icon"><i className="fas fa-sync-alt" /></span>
-          <span>Actualizar</span>
-        </button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+        <p style={{ fontSize: '0.85rem', color: '#888', margin: 0 }}>
+          {!loading && !error ? `${notificaciones.length} notificación${notificaciones.length !== 1 ? 'es' : ''}` : ''}
+        </p>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button className="button is-light is-small" onClick={refetch}>
+            <span className="icon"><i className="fas fa-sync-alt" /></span>
+            <span>Actualizar</span>
+          </button>
+          <Link to="/notifications/crear" className="button is-primary is-small">
+            <span className="icon"><i className="fas fa-plus" /></span>
+            <span>Nueva notificación</span>
+          </Link>
+        </div>
       </div>
 
       {loading && <LoadingSpinner message="Cargando notificaciones..." />}

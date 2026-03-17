@@ -1,23 +1,28 @@
 /**
  * styles/variables.css
- * Variables CSS globales del sistema SmartSchool.
- * Importar este archivo una sola vez en main.jsx o index.css.
+ * Design tokens del sistema SmartSchool.
+ * Mobile-first · Coherencia visual total · Escalable
  */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&display=swap');
 
 :root {
   /* ─── Paleta principal ──────────────────────── */
-  --color-primary:       #2e7d32;
-  --color-primary-light: #4caf50;
-  --color-primary-dark:  #1b5e20;
-  --color-accent:        #81c784;
+  --color-primary:        #2e7d32;
+  --color-primary-light:  #4caf50;
+  --color-primary-dark:   #1b5e20;
+  --color-primary-subtle: #e8f5e9;
+  --color-accent:         #81c784;
 
   /* ─── Neutros ───────────────────────────────── */
-  --color-bg:          #f4f6f8;
-  --color-surface:     #ffffff;
-  --color-border:      #e0e0e0;
-  --color-text:        #212121;
-  --color-text-muted:  #757575;
-  --color-text-light:  #bdbdbd;
+  --color-bg:           #f4f6f8;
+  --color-surface:      #ffffff;
+  --color-surface-2:    #fafbfc;
+  --color-border:       #e2e8f0;
+  --color-border-light: #f1f5f9;
+  --color-text:         #1a2332;
+  --color-text-muted:   #64748b;
+  --color-text-light:   #94a3b8;
 
   /* ─── Estados ───────────────────────────────── */
   --color-success:  #2e7d32;
@@ -25,46 +30,78 @@
   --color-error:    #c62828;
   --color-info:     #1565c0;
 
-  /* ─── Badges de tipo de evento ──────────────── */
+  /* ─── Badges tipo evento ─────────────────────── */
   --badge-academico:  #1565c0;
   --badge-cultural:   #6a1b9a;
   --badge-deportivo:  #2e7d32;
   --badge-recreativo: #e65100;
   --badge-examen:     #c62828;
 
-  /* ─── Badges de estado ──────────────────────── */
+  /* ─── Badges estado ──────────────────────────── */
   --badge-activo:    #2e7d32;
   --badge-pendiente: #f57c00;
   --badge-cancelado: #c62828;
   --badge-finalizado:#546e7a;
 
   /* ─── Tipografía ────────────────────────────── */
-  --font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  --font-sm:   0.813rem;  /* 13px */
-  --font-base: 0.938rem;  /* 15px */
-  --font-md:   1.063rem;  /* 17px */
-  --font-lg:   1.25rem;   /* 20px */
-  --font-xl:   1.5rem;    /* 24px */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-family:  var(--font-body);
+
+  --font-xs:   0.75rem;
+  --font-sm:   0.8125rem;
+  --font-base: 0.9375rem;
+  --font-md:   1.0625rem;
+  --font-lg:   1.25rem;
+  --font-xl:   1.5rem;
+  --font-2xl:  1.875rem;
+  --font-3xl:  2.25rem;
 
   /* ─── Espaciado ─────────────────────────────── */
-  --space-xs:  4px;
-  --space-sm:  8px;
-  --space-md:  16px;
-  --space-lg:  24px;
-  --space-xl:  32px;
-  --space-2xl: 48px;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --space-xs:  var(--space-1);
+  --space-sm:  var(--space-2);
+  --space-md:  var(--space-4);
+  --space-lg:  var(--space-6);
+  --space-xl:  var(--space-8);
+  --space-2xl: var(--space-12);
 
   /* ─── Bordes y sombras ──────────────────────── */
-  --radius-sm:  6px;
-  --radius-md:  10px;
-  --radius-lg:  16px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
   --radius-full: 999px;
 
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-xl: 0 20px 48px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08);
 
   /* ─── Layout ────────────────────────────────── */
   --sidebar-width: 260px;
   --topnav-height: 64px;
+  --container-max: 1200px;
+
+  /* ─── Transiciones ──────────────────────────── */
+  --transition-fast: 150ms ease;
+  --transition-base: 220ms ease;
+  --transition-slow: 350ms ease;
+
+  /* ─── Z-index ───────────────────────────────── */
+  --z-sticky:  10;
+  --z-overlay: 99;
+  --z-sidebar: 100;
+  --z-modal:   200;
 }

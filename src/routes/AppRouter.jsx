@@ -19,8 +19,11 @@ import Dashboard    from '../views/dashboard/Dashboard';
 import EventsList   from '../views/events/EventsList';
 import MisEventos   from '../views/myevents/MisEventos';
 import Reportes     from '../views/reports/Reportes';
-import Logistics    from '../views/logistics/Logistics';
-import Notifications from '../views/notifications/Notifications';
+import Logistics        from '../views/logistics/Logistics';
+import CrearRecurso     from '../views/logistics/CrearRecurso';
+import DetalleRecurso   from '../views/logistics/DetalleRecurso';
+import Notifications    from '../views/notifications/Notifications';
+import CrearNotificacion from '../views/notifications/CrearNotificacion';
 import Settings     from '../views/settings/Settings';
 import UsersList    from '../views/users/UsersList';
 
@@ -46,8 +49,11 @@ const AppRouter = () => (
       <Route path="/events"       element={<RequireAuth><EventsList /></RequireAuth>} />
       <Route path="/mis-eventos"  element={<RequireAuth><MisEventos /></RequireAuth>} />
       <Route path="/reports"      element={<RequireAuth><Reportes /></RequireAuth>} />
-      <Route path="/logistics"    element={<RequireAuth><Logistics /></RequireAuth>} />
-      <Route path="/notifications" element={<RequireAuth><Notifications /></RequireAuth>} />
+      <Route path="/logistics"              element={<RequireAuth><Logistics /></RequireAuth>} />
+      <Route path="/logistics/crear"        element={<RequireAuth><CrearRecurso /></RequireAuth>} />
+      <Route path="/logistics/:id"          element={<RequireAuth><DetalleRecurso /></RequireAuth>} />
+      <Route path="/notifications"          element={<RequireAuth><Notifications /></RequireAuth>} />
+      <Route path="/notifications/crear"    element={<RequireAuth><CrearNotificacion /></RequireAuth>} />
       <Route path="/settings"     element={<RequireAuth><Settings /></RequireAuth>} />
       <Route path="/users"        element={<RequireAuth><UsersList /></RequireAuth>} />
 

@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorMessage from '../../components/ui/ErrorMessage';
@@ -89,6 +90,11 @@ const Logistics = () => {
           <span className="icon"><i className="fas fa-sync-alt" /></span>
           <span>Actualizar</span>
         </button>
+
+        <Link to="/logistics/crear" className="button is-success">
+          <span className="icon"><i className="fas fa-plus" /></span>
+          <span>Nuevo recurso</span>
+        </Link>
       </div>
 
       {/* ── Contador ── */}
@@ -131,9 +137,15 @@ const Logistics = () => {
                   </div>
 
                   <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
-                    <button className="button is-small is-light" title="Ver detalle">
+                    <Link
+                      to={`/logistics/${resource.id}`}
+                      className="button is-small is-primary is-light"
+                      title="Ver detalle"
+                      style={{ flex: 1, justifyContent: 'center' }}
+                    >
                       <i className="fas fa-eye" />
-                    </button>
+                      <span style={{ marginLeft: '6px' }}>Ver detalles →</span>
+                    </Link>
                     <button className="button is-small is-light" title="Editar">
                       <i className="fas fa-pen" />
                     </button>
