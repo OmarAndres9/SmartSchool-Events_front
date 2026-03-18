@@ -131,7 +131,7 @@ const Login = () => {
           </form>
 
           <div className={styles.footer}>
-            <a href="#" className={styles.footerLink}>¿Olvidaste tu contraseña?</a>
+            <Link to="/olvide-contrasena" className={styles.footerLink}>¿Olvidaste tu contraseña?</Link>
             <p>
               ¿No tienes cuenta?{' '}
               <Link to="/register" className={styles.footerLink}>Regístrate</Link>

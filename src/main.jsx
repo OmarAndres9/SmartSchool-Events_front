@@ -7,11 +7,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
-// Estilos globales (variables + reset)
+// Variables CSS + reset global
 import './styles/global.css';
 
-// Estilos heredados del proyecto original (login, dashboard, formularios, etc.)
-// Se importan aquí una sola vez para que estén disponibles en todas las vistas.
+// Estilos base para vistas que usan clases Bulma/globales
+// (EventsList, Notifications, Logistics, Dashboard)
 import './assets/dashboard.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

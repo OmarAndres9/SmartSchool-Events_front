@@ -156,14 +156,14 @@ const IconEntradas = () => (
 
 /* ─── Mapa de ítems de navegación ──────────────────────────── */
 const NAV_ITEMS = [
-  { to: '/dashboard',     Icon: IconCalendario, label: 'Calendario'     },
-  { to: '/events',        Icon: IconEventos,    label: 'Eventos'        },
-  { to: '/logistics',     Icon: IconMapa,       label: 'Mapa / Logística'},
-  { to: '/notifications', Icon: IconAnuncios,   label: 'Anuncios'        },
-  { to: '/mis-eventos',   Icon: IconAvisos,     label: 'Avisos'          },
-  { to: '/reports',       Icon: IconFotos,      label: 'Reportes'        },
-  { to: '/users',         Icon: IconPerfil,     label: 'Usuarios'        },
-  { to: '/settings',      Icon: IconEntradas,   label: 'Entradas / Config'},
+  { to: '/dashboard',     Icon: IconCalendario, label: 'Calendario',       roles: null },
+  { to: '/events',        Icon: IconEventos,    label: 'Eventos',          roles: ['admin', 'organizador'] },
+  { to: '/logistics',     Icon: IconMapa,       label: 'Logística',        roles: ['admin', 'organizador'] },
+  { to: '/notifications', Icon: IconAnuncios,   label: 'Anuncios',         roles: null },
+  { to: '/mis-eventos',   Icon: IconAvisos,     label: 'Avisos',           roles: null },
+  { to: '/reports',       Icon: IconFotos,      label: 'Reportes',         roles: ['admin', 'organizador'] },
+  { to: '/users',         Icon: IconPerfil,     label: 'Usuarios',         roles: ['admin'] },
+  { to: '/settings',      Icon: IconEntradas,   label: 'Entradas / Config',roles: null },
 ];
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -204,7 +204,12 @@ const Sidebar = ({ isOpen, onClose }) => {
 
         {/* Navegación */}
         <nav className={styles.nav} aria-label="Menú principal">
-          {NAV_ITEMS.map(({ to, Icon, label }) => (
+          {NAV_ITEMS.filter(({ roles }) => {
+            if (!roles) return true; // visible para todos
+            const rolRaw = user?.roles?.[0];
+            const rol = (typeof rolRaw === 'string' ? rolRaw : rolRaw?.name || '').toLowerCase();
+            return roles.includes(rol);
+          }).map(({ to, Icon, label }) => (
             <NavLink
               key={to}
               to={to}
