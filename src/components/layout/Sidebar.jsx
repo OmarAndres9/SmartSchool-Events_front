@@ -159,10 +159,10 @@ const NAV_ITEMS = [
   { to: '/dashboard',     Icon: IconCalendario, label: 'Calendario'     },
   { to: '/events',        Icon: IconEventos,    label: 'Eventos'        },
   { to: '/logistics',     Icon: IconMapa,       label: 'Mapa / Logística'},
-  { to: '/notifications', Icon: IconAnuncios,   label: 'Anuncios'       },
-  { to: '/mis-eventos',   Icon: IconAvisos,     label: 'Avisos'         },
-  { to: '/reports',       Icon: IconFotos,      label: 'Fotos / Reportes'},
-  { to: '/users',         Icon: IconPerfil,     label: 'Perfil / Usuarios'},
+  { to: '/notifications', Icon: IconAnuncios,   label: 'Anuncios'        },
+  { to: '/mis-eventos',   Icon: IconAvisos,     label: 'Avisos'          },
+  { to: '/reports',       Icon: IconFotos,      label: 'Reportes'        },
+  { to: '/users',         Icon: IconPerfil,     label: 'Usuarios'        },
   { to: '/settings',      Icon: IconEntradas,   label: 'Entradas / Config'},
 ];
 

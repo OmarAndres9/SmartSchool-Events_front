@@ -132,6 +132,7 @@ const MisEventos = () => {
               key={evento.id}
               evento={evento}
               onVerDetalles={() => navigate(`/events/${evento.id}`)}
+              onEditar={() => navigate(`/events/${evento.id}/editar`)}
             />
           ))}
         </div>
@@ -141,7 +142,7 @@ const MisEventos = () => {
 };
 
 /** Tarjeta de evento individual */
-const EventoCard = ({ evento, onVerDetalles }) => (
+const EventoCard = ({ evento, onVerDetalles, onEditar }) => (
   <article className={styles.card}>
     <div className={styles.cardHeader}>
       {evento.tipo_evento && <Badge tipo={evento.tipo_evento} label={evento.tipo_evento} />}
@@ -188,6 +189,9 @@ const EventoCard = ({ evento, onVerDetalles }) => (
     <div className={styles.cardFooter}>
       <button className={styles.detailBtn} onClick={onVerDetalles}>
         Ver detalles →
+      </button>
+      <button className={styles.editBtn} onClick={onEditar}>
+        <i className="fas fa-pen" /> Editar
       </button>
     </div>
   </article>

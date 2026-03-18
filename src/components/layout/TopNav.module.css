@@ -106,15 +106,28 @@
   flex-shrink: 0;
 }
 
-.greeting {
-  font-size: var(--font-sm);
-  color: var(--color-text-muted);
-  white-space: nowrap;
+.userBlock {
   display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
 }
 
 @media (min-width: 768px) {
-  .greeting { display: block; }
+  .userBlock { display: flex; }
+}
+
+.greeting {
+  font-size: var(--font-sm);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.rolLabel {
+  font-size: var(--font-xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  font-weight: 500;
 }
 
 .avatar {

@@ -1,6 +1,6 @@
 /**
  * components/layout/TopNav.jsx
- * Barra superior con botón hamburguesa para móvil.
+ * Barra superior — nombre arriba, rol abajo en el avatar.
  */
 
 import React from 'react';
@@ -10,10 +10,14 @@ import styles from './TopNav.module.css';
 const TopNav = ({ title, subtitle, onMenuToggle }) => {
   const { user } = useAuth();
 
+  // Extraer rol del usuario (Spatie devuelve roles como array de strings o de objetos)
+  const rolRaw = user?.roles?.[0];
+  const rol = typeof rolRaw === 'string' ? rolRaw : rolRaw?.name || '';
+  const rolLabel = rol ? rol.charAt(0).toUpperCase() + rol.slice(1) : 'Usuario';
+
   return (
     <header className={styles.topNav}>
       <div className={styles.left}>
-        {/* Botón hamburguesa — solo visible en móvil */}
         <button
           className={styles.menuBtn}
           onClick={onMenuToggle}
@@ -31,9 +35,13 @@ const TopNav = ({ title, subtitle, onMenuToggle }) => {
       </div>
 
       <div className={styles.actions}>
-        <span className={styles.greeting}>
-          Hola, <strong>{user?.name?.split(' ')[0] || 'Usuario'}</strong>
-        </span>
+        {/* Nombre arriba — Rol abajo */}
+        <div className={styles.userBlock}>
+          <span className={styles.greeting}>
+            <strong>{user?.name?.split(' ')[0] || 'Usuario'}</strong>
+          </span>
+          <span className={styles.rolLabel}>{rolLabel}</span>
+        </div>
         <div className={styles.avatar} aria-hidden="true">
           {user?.name?.charAt(0).toUpperCase() || 'U'}
         </div>
