@@ -24,10 +24,10 @@ const recursosService = {
 
   /** DELETE /api/recursos/:id */
   remove: (id) => api.delete(`/recursos/${id}`),
-};
-
-export default recursosService;
 
   /** POST /api/eventos/:idEvento/recursos — asigna recurso a un evento */
   agregarAEvento: (idEvento, idRecurso) =>
     api.post(`/eventos/${idEvento}/recursos`, { id_recurso: idRecurso }),
+};
+
+export default recursosService;
