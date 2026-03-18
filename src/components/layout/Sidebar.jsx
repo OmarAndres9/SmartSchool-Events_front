@@ -227,17 +227,22 @@ const Sidebar = ({ isOpen, onClose }) => {
 
         {/* Footer */}
         <div className={styles.footer}>
-          {user && (
-            <div className={styles.userInfo}>
-              <div className={styles.userAvatar}>
-                {user.name?.charAt(0).toUpperCase() || 'U'}
+          {user && (() => {
+            const rolRaw = user?.roles?.[0];
+            const rol = typeof rolRaw === 'string' ? rolRaw : rolRaw?.name || '';
+            const rolLabel = rol ? rol.charAt(0).toUpperCase() + rol.slice(1) : 'Usuario';
+            return (
+              <div className={styles.userInfo}>
+                <div className={styles.userAvatar}>
+                  {user.name?.charAt(0).toUpperCase() || 'U'}
+                </div>
+                <div className={styles.userMeta}>
+                  <p className={styles.userName}>{user.name || 'Usuario'}</p>
+                  <p className={styles.userRole}>{rolLabel}</p>
+                </div>
               </div>
-              <div className={styles.userMeta}>
-                <p className={styles.userName}>{user.name || 'Usuario'}</p>
-                <p className={styles.userRole}>{user.role || 'Rol'}</p>
-              </div>
-            </div>
-          )}
+            );
+          })()}
           <button className={styles.logoutBtn} onClick={handleLogout}>
             🚪 Cerrar sesión
           </button>

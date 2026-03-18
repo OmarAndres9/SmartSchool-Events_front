@@ -149,7 +149,10 @@ const EventoCard = ({ evento, onVerDetalles, onEditar }) => (
       {evento.estado      && <Badge estado={evento.estado}   label={evento.estado} />}
     </div>
 
-    <h3 className={styles.cardTitle}>{evento.nombre || 'Sin nombre'}</h3>
+    <div className={styles.cardTitleRow}>
+      <h3 className={styles.cardTitle}>{evento.nombre || 'Sin nombre'}</h3>
+      <span className={styles.cardId}>ID: {evento.id}</span>
+    </div>
 
     <ul className={styles.cardMeta}>
       <li className={styles.metaItem}>

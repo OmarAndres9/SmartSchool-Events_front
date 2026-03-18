@@ -198,3 +198,24 @@
   background: var(--color-primary);
   color: #fff;
 }
+
+.cardTitleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.cardId {
+  font-size: var(--font-xs);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: var(--font-display);
+}
