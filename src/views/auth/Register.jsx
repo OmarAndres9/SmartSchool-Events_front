@@ -1,16 +1,26 @@
 /**
  * views/auth/Register.jsx
  * Registro — diseño responsive mobile-first.
- * Roles dinámicos desde GET /api/roles.
+ * CORRECCIÓN: GET /api/roles requiere autenticación (guard auth:api).
+ * En el registro el usuario no tiene token, por lo que se usan roles
+ * predefinidos como fallback en lugar de hacer una llamada que siempre falla.
  */
 
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
-import useRoles from '../../hooks/useRoles';
 import styles from './Auth.module.css';
 
 const TIPO_DOCUMENTO_OPTIONS = ['CC', 'TI', 'CE', 'RC'];
+
+// CORRECCIÓN: roles fijos para el registro público
+// GET /api/roles está protegido por auth:api — no se puede llamar sin token
+const ROLES_REGISTRO = [
+  { id: 'estudiante',  name: 'estudiante' },
+  { id: 'docente',     name: 'docente' },
+  { id: 'acudiente',   name: 'acudiente' },
+  { id: 'organizador', name: 'organizador' },
+];
 
 const Register = () => {
   const navigate = useNavigate();

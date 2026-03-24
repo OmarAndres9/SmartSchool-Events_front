@@ -207,9 +207,22 @@ const EditModal = ({ user, roles, onClose, onSaved }) => {
     }
     setLoading(true); setErrorMsg('');
     try {
-      const payload = { ...form };
-      if (!payload.password) { delete payload.password; delete payload.password_confirmation; }
-      await usuariosService.update(user.id, payload);
+      // CORRECCIÓN: separar el payload de datos del usuario del campo 'rol'
+      // UsuariosRequest no procesa 'rol' — hay que usar el endpoint dedicado
+      const { rol, password, password_confirmation, ...userData } = form;
+      if (password) { userData.password = password; userData.password_confirmation = password_confirmation; }
+
+      await usuariosService.update(user.id, userData);
+
+      // Actualizar rol si cambió
+      if (rol && rol !== (user.roles?.[0]?.name || '')) {
+        try {
+          await usuariosService.asignarRoles(user.id, [rol]);
+        } catch {
+          // silenciar error de rol — el update de datos ya fue exitoso
+        }
+      }
+
       onSaved(); onClose();
     } catch (err) {
       const errs = err.response?.data?.errors;

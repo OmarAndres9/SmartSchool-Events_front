@@ -41,11 +41,14 @@ const EventsList = () => {
       setFormData(FORM_INICIAL);
       setTimeout(() => navigate('/mis-eventos'), 2000);
     } catch (error) {
+      // CORRECCIÓN: el ternario original estaba mal anidado — evaluaba
+      // error.response?.data?.errors como condición pero luego usaba
+      // error.response.data.errors sin optional chaining (crash si era undefined)
+      const errs = error.response?.data?.errors;
       setErrorMsg(
-        error.response?.data?.message ||
-        error.response?.data?.errors
-          ? Object.values(error.response.data.errors).flat().join(' · ')
-          : 'No se pudo crear el evento. Verifica los datos.'
+        errs
+          ? Object.values(errs).flat().join(' · ')
+          : error.response?.data?.message || 'No se pudo crear el evento. Verifica los datos.'
       );
     } finally {
       setLoading(false);

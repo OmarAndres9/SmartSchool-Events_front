@@ -24,7 +24,7 @@ const recursosService = {
   /** POST /api/v1/eventos/:idEvento/recursos */
   agregarAEvento: (idEvento, idRecurso, cantidad = 1) =>
     api.post(`/eventos/${idEvento}/recursos`, {
-      id_recurso: idRecurso,
+      recurso_id: idRecurso,   // CORRECCIÓN: el backend espera recurso_id, no id_recurso
       cantidad,
     }),
 };

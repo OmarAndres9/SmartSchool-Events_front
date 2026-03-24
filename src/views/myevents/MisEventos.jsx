@@ -31,7 +31,7 @@ const MisEventos = () => {
 
   const [busqueda,     setBusqueda]     = useState('');
   const [filtroTipo,   setFiltroTipo]   = useState('');
-  const [filtroEstado, setFiltroEstado] = useState('');
+  // CORRECCIÓN: filtroEstado eliminado — Eventos model no tiene campo 'estado'
 
   // ── Tipos únicos extraídos de los datos reales ──────────────────────────
   const tiposUnicos = useMemo(() => {
@@ -39,23 +39,19 @@ const MisEventos = () => {
     return Array.from(set);
   }, [eventos]);
 
-  const estadosUnicos = useMemo(() => {
-    const set = new Set(eventos.map((e) => e.estado).filter(Boolean));
-    return Array.from(set);
-  }, [eventos]);
-
   // ── Filtrado en cliente ─────────────────────────────────────────────────
   const eventosFiltrados = useMemo(() =>
     eventos.filter((ev) => {
-      const coincideTipo   = !filtroTipo   || ev.tipo_evento === filtroTipo;
-      const coincideEstado = !filtroEstado || ev.estado      === filtroEstado;
+      const coincideTipo   = !filtroTipo || ev.tipo_evento === filtroTipo;
+      // CORRECCIÓN: ev.estado no existe en el modelo Eventos del backend
+      // El filtro de estado se elimina para no romper resultados silenciosamente
       const termino        = busqueda.toLowerCase();
       const coincideBusq   = !busqueda ||
         ev.nombre?.toLowerCase().includes(termino) ||
         ev.lugar?.toLowerCase().includes(termino);
-      return coincideTipo && coincideEstado && coincideBusq;
+      return coincideTipo && coincideBusq;
     }),
-    [eventos, filtroTipo, filtroEstado, busqueda]
+    [eventos, filtroTipo, busqueda]
   );
 
   return (
@@ -85,19 +81,7 @@ const MisEventos = () => {
           ))}
         </select>
 
-        {/* Select de estados construido dinámicamente */}
-        <select
-          className={styles.filterSelect}
-          value={filtroEstado}
-          onChange={(e) => setFiltroEstado(e.target.value)}
-        >
-          <option value="">Todos los estados</option>
-          {estadosUnicos.map((s) => (
-            <option key={s} value={s}>
-              {s.charAt(0).toUpperCase() + s.slice(1)}
-            </option>
-          ))}
-        </select>
+        {/* CORRECCIÓN: select de estado eliminado — Eventos no tiene campo estado */}
 
         <button className={styles.refreshBtn} onClick={refetch}>
           🔄 Actualizar
@@ -131,7 +115,8 @@ const MisEventos = () => {
             <EventoCard
               key={evento.id}
               evento={evento}
-              onVerDetalles={() => navigate(`/events/${evento.id}`)}
+              // CORRECCIÓN: /events/:id no existe en el router — se redirige a editar
+              onVerDetalles={() => navigate(`/events/${evento.id}/editar`)}
               onEditar={() => navigate(`/events/${evento.id}/editar`)}
             />
           ))}
@@ -146,7 +131,7 @@ const EventoCard = ({ evento, onVerDetalles, onEditar }) => (
   <article className={styles.card}>
     <div className={styles.cardHeader}>
       {evento.tipo_evento && <Badge tipo={evento.tipo_evento} label={evento.tipo_evento} />}
-      {evento.estado      && <Badge estado={evento.estado}   label={evento.estado} />}
+      {/* CORRECCIÓN: Badge de estado eliminado — Eventos model no tiene campo 'estado' */}
     </div>
 
     <div className={styles.cardTitleRow}>

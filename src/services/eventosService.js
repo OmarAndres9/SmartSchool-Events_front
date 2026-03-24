@@ -48,8 +48,8 @@ const eventosService = {
   /** DELETE /api/eventos/:id */
   remove: (id) => api.delete(`/eventos/${id}`),
 
-  /** GET /api/eventos/tipo/:tipo */
-  getByTipo: (tipo) => api.get(`/eventos/tipo/${tipo}`),
+  // NOTA: getByTipo eliminado — el backend no expone GET /eventos/tipo/:tipo
+  // Si se necesita filtrar por tipo, usar: eventosService.getAll({ tipo_evento: tipo })
 };
 
 export default eventosService;

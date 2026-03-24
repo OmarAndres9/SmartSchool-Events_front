@@ -10,13 +10,16 @@ import reportesService from '../../services/reportesService';
 import styles from '../logistics/CrearRecurso.module.css'; // reutilizar estilos
 
 const TIPOS   = ['Academico', 'Cultural', 'Deportivo', 'Recreativo', 'Administrativo'];
-const ESTADOS = ['pendiente', 'en_proceso', 'finalizado', 'cancelado'];
+// CORRECCIÓN: estados alineados con la validación del backend
+// Backend acepta: activo, pendiente, finalizado, cancelado
+// El frontend tenía 'en_proceso' que no existe en el backend
+const ESTADOS = ['activo', 'pendiente', 'finalizado', 'cancelado'];
 
 const ESTADO_META = {
-  pendiente:   { color: '#f57c00', bg: '#fff3e0', label: 'Pendiente' },
-  en_proceso:  { color: '#1565c0', bg: '#e3f2fd', label: 'En proceso' },
-  finalizado:  { color: '#2e7d32', bg: '#e8f5e9', label: 'Finalizado' },
-  cancelado:   { color: '#c62828', bg: '#ffebee', label: 'Cancelado' },
+  activo:     { color: '#1565c0', bg: '#e3f2fd', label: 'Activo' },
+  pendiente:  { color: '#f57c00', bg: '#fff3e0', label: 'Pendiente' },
+  finalizado: { color: '#2e7d32', bg: '#e8f5e9', label: 'Finalizado' },
+  cancelado:  { color: '#c62828', bg: '#ffebee', label: 'Cancelado' },
 };
 
 const FORM_INICIAL = {

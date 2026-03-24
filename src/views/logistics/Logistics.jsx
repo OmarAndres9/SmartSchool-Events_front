@@ -146,9 +146,13 @@ const Logistics = () => {
                       <i className="fas fa-eye" />
                       <span style={{ marginLeft: '6px' }}>Ver detalles →</span>
                     </Link>
-                    <button className="button is-small is-light" title="Editar">
+                    <Link
+                      to={`/logistics/${resource.id}/editar`}
+                      className="button is-small is-light"
+                      title="Editar"
+                    >
                       <i className="fas fa-pen" />
-                    </button>
+                    </Link>
                     <button
                       className={`button is-small is-danger is-light ${deletingId === resource.id ? 'is-loading' : ''}`}
                       title="Eliminar"
