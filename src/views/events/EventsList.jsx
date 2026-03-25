@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import eventosService from '../../services/eventosService';
+import styles from '../logistics/CrearRecurso.module.css'; // reutilizar estilos
 
 const TIPOS_EVENTO  = ['Academico', 'Cultural', 'Deportivo', 'Recreativo'];
 const MODALIDADES   = ['Presencial', 'Virtual', 'Mixta'];
@@ -180,6 +181,7 @@ const EventsList = () => {
           >
             Cancelar
           </button>
+          
           <button
             type="submit"
             className={`button is-success ${loading ? 'is-loading' : ''}`}

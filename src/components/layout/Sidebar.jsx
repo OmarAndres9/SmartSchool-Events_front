@@ -78,17 +78,20 @@ const IconAnuncios = () => (
   </svg>
 );
 
-const IconAvisos = () => (
+const IconMisEventos = () => (
   <svg viewBox="0 0 40 40" width="26" height="26" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" y="2" width="36" height="36" rx="9" fill="#FFFDE7"/>
-    <path d="M20 8 C12 8 10 16 10 20 L10 26 L8 28 L32 28 L30 26 L30 20 C30 16 28 8 20 8 Z" fill="#FFB300"/>
-    <path d="M20 8 C15 8 13 12 12 16 L12 26 L10 28 L32 28 L30 26 L30 16 C29 12 25 8 20 8 Z" fill="#FFC107"/>
-    <ellipse cx="20" cy="28" rx="5" ry="2.5" fill="#FFB300"/>
-    <rect x="18.5" y="28" width="3" height="4" rx="1.5" fill="#F57F17"/>
-    <circle cx="30" cy="12" r="6" fill="#E53935"/>
-    <text x="30" y="15" textAnchor="middle" fontSize="7" fontWeight="bold" fill="white">!</text>
-    <path d="M12 14 Q9 14 8 16 Q7 18 9 19" stroke="#FFE082" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-    <path d="M11 12 Q8 11 7 13 Q6 15 8 16" stroke="#FFE082" strokeWidth="1" fill="none" strokeLinecap="round"/>
+    <rect x="2" y="2" width="36" height="36" rx="9" fill="#7B1FA2"/>
+    <rect x="8" y="9" width="24" height="22" rx="3" fill="white"/>
+    <rect x="8" y="9" width="24" height="7" rx="3" fill="#6A1B9A"/>
+    <rect x="8" y="13" width="24" height="3" fill="#6A1B9A"/>
+    <rect x="13" y="5" width="2.5" height="7" rx="1.2" fill="white"/>
+    <rect x="24.5" y="5" width="2.5" height="7" rx="1.2" fill="white"/>
+    {/* líneas de contenido */}
+    <line x1="11" y1="21" x2="29" y2="21" stroke="#CE93D8" strokeWidth="1.2" strokeLinecap="round"/>
+    <line x1="11" y1="24.5" x2="24" y2="24.5" stroke="#CE93D8" strokeWidth="1.2" strokeLinecap="round"/>
+    {/* estrella de "mis" */}
+    <circle cx="27" cy="26" r="5.5" fill="#F9A825"/>
+    <polygon points="27,21.5 28.2,24.5 31.5,24.5 28.9,26.4 29.9,29.5 27,27.6 24.1,29.5 25.1,26.4 22.5,24.5 25.8,24.5" fill="white"/>
   </svg>
 );
 
@@ -160,10 +163,10 @@ const NAV_ITEMS = [
   { to: '/events',        Icon: IconEventos,    label: 'Eventos',          roles: ['admin', 'organizador'] },
   { to: '/logistics',     Icon: IconMapa,       label: 'Logística',        roles: ['admin', 'organizador'] },
   { to: '/notifications', Icon: IconAnuncios,   label: 'Anuncios',         roles: null },
-  { to: '/mis-eventos',   Icon: IconAvisos,     label: 'Avisos',           roles: null },
+  { to: '/mis-eventos',   Icon: IconMisEventos, label: 'Mis Eventos',      roles: null },
   { to: '/reports',       Icon: IconFotos,      label: 'Reportes',         roles: ['admin', 'organizador'] },
   { to: '/users',         Icon: IconPerfil,     label: 'Usuarios',         roles: ['admin'] },
-  { to: '/settings',      Icon: IconEntradas,   label: 'Entradas / Config',roles: null },
+  { to: '/settings',      Icon: IconEntradas,   label: 'Perfil',roles: null },
 ];
 
 const Sidebar = ({ isOpen, onClose }) => {

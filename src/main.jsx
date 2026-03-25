@@ -7,6 +7,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
+// Bulma CSS para clases .button, .notification, .is-success, .is-light, etc.
+import 'bulma/css/bulma.min.css';
+
 // Variables CSS + reset global
 import './styles/global.css';
 
