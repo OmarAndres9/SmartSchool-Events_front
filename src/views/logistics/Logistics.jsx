@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { Search, RefreshCw, Plus, Package, Eye, Pen, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
@@ -73,7 +74,7 @@ const Logistics = () => {
             onChange={(e) => setBusqueda(e.target.value)}
           />
           <span className="icon is-small is-left">
-            <i className="fas fa-search" />
+            <Search size={16} />
           </span>
         </div>
 
@@ -87,12 +88,12 @@ const Logistics = () => {
         </div>
 
         <button className="button is-primary" onClick={refetch} title="Actualizar">
-          <span className="icon"><i className="fas fa-sync-alt" /></span>
+          <span className="icon"><RefreshCw size={14} /></span>
           <span>Actualizar</span>
         </button>
 
         <Link to="/logistics/crear" className="button is-success">
-          <span className="icon"><i className="fas fa-plus" /></span>
+          <span className="icon"><Plus size={14} /></span>
           <span>Nuevo recurso</span>
         </Link>
       </div>
@@ -110,7 +111,7 @@ const Logistics = () => {
 
       {!loading && !error && recursosFiltrados.length === 0 && (
         <EmptyState
-          icon="📦"
+          icon={<Package size={48} />}
           title="Sin recursos"
           description="No hay recursos que coincidan con los filtros aplicados."
           action={{ label: 'Ver todos', onClick: () => { setFiltroEstado('Todos'); setBusqueda(''); } }}
@@ -143,7 +144,7 @@ const Logistics = () => {
                       title="Ver detalle"
                       style={{ flex: 1, justifyContent: 'center' }}
                     >
-                      <i className="fas fa-eye" />
+                      <Eye size={14} />
                       <span style={{ marginLeft: '6px' }}>Ver detalles →</span>
                     </Link>
                     <Link
@@ -151,7 +152,7 @@ const Logistics = () => {
                       className="button is-small is-light"
                       title="Editar"
                     >
-                      <i className="fas fa-pen" />
+                      <Pen size={14} />
                     </Link>
                     <button
                       className={`button is-small is-danger is-light ${deletingId === resource.id ? 'is-loading' : ''}`}
@@ -159,7 +160,7 @@ const Logistics = () => {
                       onClick={() => handleDelete(resource.id)}
                       disabled={deletingId === resource.id}
                     >
-                      <i className="fas fa-trash" />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 </div>

@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useMemo, useRef } from 'react';
+import { FileText, Plus, ClipboardList } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import Badge from '../../components/ui/Badge';
@@ -163,11 +164,11 @@ const Reportes = () => {
             onClick={handleExportPDF}
             disabled={exporting || reportesFiltrados.length === 0}
           >
-            <i className="fas fa-file-pdf" />
+            <FileText size={16} />
             {exporting ? ' Generando...' : ' Exportar PDF'}
           </button>
           <Link to="/reports/crear" className={styles.btnCrear}>
-            <i className="fas fa-plus" /> Nuevo reporte
+            <Plus size={16} /> Nuevo reporte
           </Link>
         </div>
       </div>
@@ -175,7 +176,7 @@ const Reportes = () => {
       {loading && <LoadingSpinner message="Cargando reportes..." />}
       {!loading && error && <ErrorMessage message={error} onRetry={refetch} />}
       {!loading && !error && reportesFiltrados.length === 0 && (
-        <EmptyState icon="📋" title="No hay reportes"
+        <EmptyState icon={<ClipboardList size={48} />} title="No hay reportes"
           description="No se encontraron reportes con los criterios seleccionados."
           action={{ label: 'Limpiar filtros', onClick: handleLimpiar }} />
       )}

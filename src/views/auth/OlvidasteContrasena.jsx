@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { GraduationCap, AlertTriangle, CheckCircle, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import styles from './Auth.module.css';
@@ -37,7 +38,7 @@ const OlvidasteContrasena = () => {
 
         {/* Panel de marca */}
         <div className={styles.brand}>
-          <span className={styles.brandIcon}>🎓</span>
+          <GraduationCap className={styles.brandIcon} size={48} />
           <h1 className={styles.brandName}>SmartSchool</h1>
           <p className={styles.brandSub}>Recupera el acceso a tu cuenta.</p>
         </div>
@@ -49,15 +50,15 @@ const OlvidasteContrasena = () => {
             Ingresa tu correo y te enviaremos un enlace para restablecerla.
           </p>
 
-          {errorMsg && (
-            <div className={styles.alert} role="alert">
-              <span>⚠️</span> {errorMsg}
+            <div className={styles.alert} role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertTriangle size={18} /> {errorMsg}
             </div>
-          )}
 
           {successMsg ? (
             <div className={styles.success} role="status">
-              <span>✅</span> {successMsg}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckCircle size={18} /> {successMsg}
+              </div>
               <div className={styles.footer} style={{ marginTop: 'var(--space-5)' }}>
                 <Link to="/login" className={styles.footerLink}>
                   ← Volver al inicio de sesión
@@ -89,7 +90,7 @@ const OlvidasteContrasena = () => {
               >
                 {loading
                   ? <><span className={styles.spinner} /> Enviando...</>
-                  : <><i className="fas fa-paper-plane" /> Enviar enlace</>
+                  : <><Send size={18} style={{ marginRight: '8px' }} /> Enviar enlace</>
                 }
               </button>
             </form>

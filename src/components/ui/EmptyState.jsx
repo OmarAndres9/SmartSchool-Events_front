@@ -4,11 +4,12 @@
  */
 
 import React from 'react';
+import { Inbox } from 'lucide-react';
 import styles from './EmptyState.module.css';
 
-const EmptyState = ({ icon = '📭', title = 'Sin resultados', description, action }) => (
+const EmptyState = ({ icon = <Inbox size={48} />, title = 'Sin resultados', description, action }) => (
   <div className={styles.container}>
-    <span className={styles.icon}>{icon}</span>
+    <div className={styles.icon}>{icon}</div>
     <h3 className={styles.title}>{title}</h3>
     {description && <p className={styles.description}>{description}</p>}
     {action && (

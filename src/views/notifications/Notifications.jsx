@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { CheckCircle, AlertTriangle, XCircle, Info, RefreshCw, Plus, Bell, Radio, Package, Archive, MapPin, CalendarCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
@@ -14,10 +15,10 @@ import useRecursos from '../../hooks/useRecursos';
 import styles from './Notifications.module.css';
 
 const TIPO_CONFIG = {
-  success: { icon: 'fa-check-circle',       css: 'success', border: '#4CAF50' },
-  warning: { icon: 'fa-exclamation-triangle',css: 'warning', border: '#FFC107' },
-  danger:  { icon: 'fa-times-circle',        css: 'danger',  border: '#F44336' },
-  info:    { icon: 'fa-info-circle',         css: 'info',    border: '#2196F3' },
+  success: { icon: CheckCircle,       css: 'success', border: '#4CAF50' },
+  warning: { icon: AlertTriangle,     css: 'warning', border: '#FFC107' },
+  danger:  { icon: XCircle,           css: 'danger',  border: '#F44336' },
+  info:    { icon: Info,              css: 'info',    border: '#2196F3' },
 };
 
 const getTipoConfig = (tipo) =>
@@ -55,11 +56,11 @@ const Notifications = () => {
         </p>
         <div className={styles.toolbarActions}>
           <button className="button is-light is-small" onClick={refetch}>
-            <span className="icon"><i className="fas fa-sync-alt" /></span>
+            <span className="icon"><RefreshCw size={14} /></span>
             <span>Actualizar</span>
           </button>
           <Link to="/notifications/crear" className="button is-primary is-small">
-            <span className="icon"><i className="fas fa-plus" /></span>
+            <span className="icon"><Plus size={14} /></span>
             <span>Nueva notificación</span>
           </Link>
         </div>
@@ -70,7 +71,7 @@ const Notifications = () => {
         {/* ══ Panel izquierdo: Notificaciones ══ */}
         <div className={styles.mainPanel}>
           <h3 className={styles.sectionTitle}>
-            <i className="fas fa-bell" /> Notificaciones
+            <Bell size={18} style={{marginRight: '6px'}} /> Notificaciones
           </h3>
 
           {loading && <LoadingSpinner message="Cargando notificaciones..." />}
@@ -78,7 +79,7 @@ const Notifications = () => {
 
           {!loading && !error && notificaciones.length === 0 && (
             <EmptyState
-              icon="🔔"
+              icon={<Bell size={48} />}
               title="Sin notificaciones"
               description="No tienes nuevas notificaciones en este momento."
             />
@@ -95,14 +96,14 @@ const Notifications = () => {
                     style={{ borderLeftColor: config.border }}
                   >
                     <div className={`notif-icon ${config.css}`}>
-                      <i className={`fas ${config.icon}`} />
+                      <config.icon size={20} />
                     </div>
                     <div className="notif-content">
                       <h4 className="notif-title">{notif.titulo || 'Sin título'}</h4>
                       <p className="notif-message">{notif.mensaje || '—'}</p>
                       {notif.canal && (
                         <span style={{ fontSize: '0.75rem', color: '#aaa', marginTop: '4px', display: 'block' }}>
-                          <i className="fas fa-broadcast-tower" /> {notif.canal}
+                          <Radio size={12} style={{marginRight: '4px'}} /> {notif.canal}
                         </span>
                       )}
                     </div>
@@ -123,14 +124,14 @@ const Notifications = () => {
         {/* ══ Panel derecho: Recursos asignados ══ */}
         <aside className={styles.sidePanel}>
           <h3 className={styles.sectionTitle}>
-            <i className="fas fa-boxes" /> Recursos asignados
+            <Package size={18} style={{marginRight: '6px'}} /> Recursos asignados
           </h3>
 
           {resLoading && <LoadingSpinner message="Cargando recursos..." />}
 
           {!resLoading && recursosAsignados.length === 0 && (
             <div className={styles.emptyAside}>
-              <i className="fas fa-box-open" style={{ fontSize: '1.5rem', color: '#cbd5e1', marginBottom: '8px' }} />
+              <Archive size={24} style={{ color: '#cbd5e1', marginBottom: '8px' }} />
               <p>No hay recursos asignados a eventos actualmente.</p>
             </div>
           )}
@@ -147,14 +148,14 @@ const Notifications = () => {
                 </div>
                 {r.ubicacion && (
                   <p className={styles.recursoUbicacion}>
-                    <i className="fas fa-map-marker-alt" /> {r.ubicacion}
+                    <MapPin size={12} style={{marginRight: '4px'}} /> {r.ubicacion}
                   </p>
                 )}
                 {r.eventos?.length > 0 && (
                   <div className={styles.recursoEventos}>
                     {r.eventos.map(ev => (
                       <div key={ev.id} className={styles.recursoEvento}>
-                        <i className="fas fa-calendar-check" style={{ color: '#2e7d32', fontSize: '11px' }} />
+                        <CalendarCheck style={{ color: '#2e7d32' }} size={12} />
                         <span>{ev.nombre}</span>
                         {ev.pivot?.cantidad && (
                           <span className={styles.cantidad}>×{ev.pivot.cantidad}</span>

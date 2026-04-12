@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { CheckCircle, XCircle, Wrench, CalendarPlus, AlertTriangle, Link as LinkIcon, ArrowLeft, Package, MapPin, Tag, Users, CalendarDays, CalendarCheck, AlignLeft, Pen, Trash2, Box } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
@@ -12,9 +13,9 @@ import recursosService from '../../services/recursosService';
 import styles from './DetalleRecurso.module.css';
 
 const ESTADO_META = {
-  disponible:    { color: '#2e7d32', bg: '#e8f5e9', label: 'Disponible',    icon: 'fa-check-circle' },
-  ocupado:       { color: '#c62828', bg: '#ffebee', label: 'Ocupado',       icon: 'fa-times-circle' },
-  mantenimiento: { color: '#1565c0', bg: '#e3f2fd', label: 'Mantenimiento', icon: 'fa-tools' },
+  disponible:    { color: '#2e7d32', bg: '#e8f5e9', label: 'Disponible',    icon: CheckCircle },
+  ocupado:       { color: '#c62828', bg: '#ffebee', label: 'Ocupado',       icon: XCircle },
+  mantenimiento: { color: '#1565c0', bg: '#e3f2fd', label: 'Mantenimiento', icon: Wrench },
 };
 
 const getEstado = (e) => ESTADO_META[e?.toLowerCase()] || ESTADO_META.mantenimiento;
@@ -49,7 +50,7 @@ const AgregarEventoModal = ({ recurso, onClose }) => {
 
         <div className={styles.modalHeader}>
           <div className={styles.modalIconWrap}>
-            <i className="fas fa-calendar-plus" />
+            <CalendarPlus size={24} />
           </div>
           <div>
             <h3 className={styles.modalTitle}>Asignar a evento</h3>
@@ -60,7 +61,7 @@ const AgregarEventoModal = ({ recurso, onClose }) => {
 
         {success ? (
           <div className={styles.successBox}>
-            <i className="fas fa-check-circle" />
+            <CheckCircle size={24} color="#2e7d32" />
             <p>¡Recurso asignado exitosamente al evento!</p>
             <button className={styles.btnPrimary} onClick={onClose}>Cerrar</button>
           </div>
@@ -68,7 +69,7 @@ const AgregarEventoModal = ({ recurso, onClose }) => {
           <form onSubmit={handleSubmit} className={styles.modalForm} noValidate>
             {error && (
               <div className={styles.alertDanger} role="alert">
-                <i className="fas fa-exclamation-circle" /> {error}
+                <AlertTriangle size={16} /> {error}
               </div>
             )}
 
@@ -104,7 +105,7 @@ const AgregarEventoModal = ({ recurso, onClose }) => {
               <button type="submit" className={styles.btnPrimary} disabled={loading}>
                 {loading
                   ? <><span className={styles.spinner} /> Asignando...</>
-                  : <><i className="fas fa-link" /> Asignar recurso</>
+                  : <><LinkIcon size={16} style={{marginRight: '6px'}} /> Asignar recurso</>
                 }
               </button>
             </div>
@@ -151,7 +152,7 @@ const DetalleRecurso = () => {
   };
 
   if (loading) return <DashboardLayout title="Detalle del Recurso"><LoadingSpinner message="Cargando recurso..." /></DashboardLayout>;
-  if (error)   return <DashboardLayout title="Detalle del Recurso"><ErrorMessage message={error} onRetry={fetchRecurso} /><Link to="/logistics" className={styles.backLink}><i className="fas fa-arrow-left" /> Volver</Link></DashboardLayout>;
+  if (error)   return <DashboardLayout title="Detalle del Recurso"><ErrorMessage message={error} onRetry={fetchRecurso} /><Link to="/logistics" className={styles.backLink}><ArrowLeft size={14} style={{marginRight: '6px'}} /> Volver</Link></DashboardLayout>;
 
   const estadoMeta = getEstado(recurso?.estado);
 
@@ -159,7 +160,7 @@ const DetalleRecurso = () => {
     <DashboardLayout title="Detalle del Recurso" subtitle="Información completa y acciones disponibles.">
 
       <nav className={styles.breadcrumb}>
-        <Link to="/logistics" className={styles.breadcrumbLink}><i className="fas fa-boxes" /> Recursos</Link>
+        <Link to="/logistics" className={styles.breadcrumbLink}><Package size={14} style={{marginRight: '6px'}} /> Recursos</Link>
         <span className={styles.breadcrumbSep}>/</span>
         <span className={styles.breadcrumbCurrent}>{recurso?.nombre}</span>
       </nav>
@@ -170,7 +171,7 @@ const DetalleRecurso = () => {
           <div className={styles.card}>
             <div className={styles.cardBanner} style={{ background: `linear-gradient(135deg, ${estadoMeta.color}22, ${estadoMeta.color}44)` }}>
               <div className={styles.cardBannerIcon} style={{ color: estadoMeta.color }}>
-                <i className="fas fa-cube" />
+                <Box size={32} />
               </div>
             </div>
 
@@ -178,29 +179,29 @@ const DetalleRecurso = () => {
               <div className={styles.cardTitleRow}>
                 <h2 className={styles.cardTitle}>{recurso?.nombre}</h2>
                 <span className={styles.estadoBadge} style={{ background: estadoMeta.bg, color: estadoMeta.color }}>
-                  <i className={`fas ${estadoMeta.icon}`} /> {estadoMeta.label}
+                  <estadoMeta.icon size={14} style={{marginRight: '4px'}} /> {estadoMeta.label}
                 </span>
               </div>
 
               <dl className={styles.metaGrid}>
                 <div className={styles.metaItem}>
-                  <dt className={styles.metaLabel}><i className="fas fa-map-marker-alt" /> Ubicación</dt>
+                  <dt className={styles.metaLabel}><MapPin size={14} style={{marginRight: '6px'}} /> Ubicación</dt>
                   <dd className={styles.metaValue}>{recurso?.ubicacion || <span className={styles.metaEmpty}>No especificada</span>}</dd>
                 </div>
                 {recurso?.tipo && (
                   <div className={styles.metaItem}>
-                    <dt className={styles.metaLabel}><i className="fas fa-tag" /> Tipo</dt>
+                    <dt className={styles.metaLabel}><Tag size={14} style={{marginRight: '6px'}} /> Tipo</dt>
                     <dd className={styles.metaValue}>{recurso.tipo}</dd>
                   </div>
                 )}
                 {recurso?.capacidad && (
                   <div className={styles.metaItem}>
-                    <dt className={styles.metaLabel}><i className="fas fa-users" /> Capacidad</dt>
+                    <dt className={styles.metaLabel}><Users size={14} style={{marginRight: '6px'}} /> Capacidad</dt>
                     <dd className={styles.metaValue}>{recurso.capacidad} personas</dd>
                   </div>
                 )}
                 <div className={styles.metaItem}>
-                  <dt className={styles.metaLabel}><i className="fas fa-calendar-alt" /> Registrado</dt>
+                  <dt className={styles.metaLabel}><CalendarDays size={14} style={{marginRight: '6px'}} /> Registrado</dt>
                   <dd className={styles.metaValue}>
                     {recurso?.created_at ? new Date(recurso.created_at).toLocaleDateString('es-CO', { day: '2-digit', month: 'long', year: 'numeric' }) : '—'}
                   </dd>
@@ -210,7 +211,7 @@ const DetalleRecurso = () => {
               {/* Eventos asignados */}
               {recurso?.eventos?.length > 0 && (
                 <div className={styles.descripcion}>
-                  <h4 className={styles.descripcionTitle}><i className="fas fa-calendar-check" /> Eventos asignados</h4>
+                  <h4 className={styles.descripcionTitle}><CalendarCheck size={14} style={{marginRight: '6px'}} /> Eventos asignados</h4>
                   {recurso.eventos.map(ev => (
                     <div key={ev.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #f1f5f9', fontSize: '0.85rem' }}>
                       <span>{ev.nombre}</span>
@@ -222,7 +223,7 @@ const DetalleRecurso = () => {
 
               {recurso?.descripcion && (
                 <div className={styles.descripcion}>
-                  <h4 className={styles.descripcionTitle}><i className="fas fa-align-left" /> Descripción</h4>
+                  <h4 className={styles.descripcionTitle}><AlignLeft size={14} style={{marginRight: '6px'}} /> Descripción</h4>
                   <p className={styles.descripcionText}>{recurso.descripcion}</p>
                 </div>
               )}
@@ -240,7 +241,7 @@ const DetalleRecurso = () => {
               onClick={() => setModal(true)}
               disabled={recurso?.estado?.toLowerCase() !== 'disponible'}
             >
-              <i className="fas fa-calendar-plus" /> Agregar a evento
+              <CalendarPlus size={16} style={{marginRight: '6px'}} /> Agregar a evento
             </button>
 
             {recurso?.estado?.toLowerCase() !== 'disponible' && (
@@ -250,16 +251,16 @@ const DetalleRecurso = () => {
             )}
 
             <div className={styles.actionsDivider} />
-            <Link to={`/logistics/${id}/editar`} className={styles.btnSecondary}><i className="fas fa-pen" /> Editar recurso</Link>
+            <Link to={`/logistics/${id}/editar`} className={styles.btnSecondary}><Pen size={14} style={{marginRight: '6px'}} /> Editar recurso</Link>
             <button className={styles.btnDanger} onClick={handleDelete} disabled={deleting}>
-              {deleting ? <><span className={styles.spinner} /> Eliminando...</> : <><i className="fas fa-trash" /> Eliminar recurso</>}
+              {deleting ? <><span className={styles.spinner} /> Eliminando...</> : <><Trash2 size={14} style={{marginRight: '6px'}} /> Eliminar recurso</>}
             </button>
             <div className={styles.actionsDivider} />
-            <Link to="/logistics" className={styles.btnBack}><i className="fas fa-arrow-left" /> Volver a la lista</Link>
+            <Link to="/logistics" className={styles.btnBack}><ArrowLeft size={14} style={{marginRight: '6px'}} /> Volver a la lista</Link>
           </div>
 
           <div className={styles.estadoCard} style={{ borderColor: estadoMeta.color, background: estadoMeta.bg }}>
-            <i className={`fas ${estadoMeta.icon} ${styles.estadoCardIcon}`} style={{ color: estadoMeta.color }} />
+            <estadoMeta.icon className={styles.estadoCardIcon} size={24} color={estadoMeta.color} />
             <div>
               <p className={styles.estadoCardLabel} style={{ color: estadoMeta.color }}>Estado actual</p>
               <p className={styles.estadoCardValue} style={{ color: estadoMeta.color }}>{estadoMeta.label}</p>

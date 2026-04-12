@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { ChevronLeft, ChevronRight, X, Clock, MapPin, Monitor } from 'lucide-react';
 import styles from './CalendarioEventos.module.css';
 
 /* ── Utilidades de fecha ───────────────────────────────────── */
@@ -112,7 +113,7 @@ const CalendarioEventos = ({ eventos = [] }) => {
       {/* ── Cabecera ── */}
       <div className={styles.header}>
         <button className={styles.navBtn} onClick={prevMonth} aria-label="Mes anterior">
-          <i className="fas fa-chevron-left" />
+          <ChevronLeft size={16} />
         </button>
 
         <div className={styles.headerCenter}>
@@ -123,7 +124,7 @@ const CalendarioEventos = ({ eventos = [] }) => {
         </div>
 
         <button className={styles.navBtn} onClick={nextMonth} aria-label="Mes siguiente">
-          <i className="fas fa-chevron-right" />
+          <ChevronRight size={16} />
         </button>
       </div>
 
@@ -192,7 +193,7 @@ const CalendarioEventos = ({ eventos = [] }) => {
               className={styles.dayPanelClose}
               onClick={() => setSelected(null)}
               aria-label="Cerrar"
-            >✕</button>
+            ><X size={16} /></button>
           </div>
 
           {selectedEvs.length === 0 ? (
@@ -217,13 +218,13 @@ const CalendarioEventos = ({ eventos = [] }) => {
                     </div>
                     <div className={styles.dayEventMeta}>
                       {hora && (
-                        <span><i className="fas fa-clock" /> {hora}</span>
+                        <span><Clock size={12} style={{marginRight: '4px'}} /> {hora}</span>
                       )}
                       {ev.lugar && (
-                        <span><i className="fas fa-map-marker-alt" /> {ev.lugar}</span>
+                        <span><MapPin size={12} style={{marginRight: '4px'}} /> {ev.lugar}</span>
                       )}
                       {ev.modalidad && (
-                        <span><i className="fas fa-laptop" /> {ev.modalidad}</span>
+                        <span><Monitor size={12} style={{marginRight: '4px'}} /> {ev.modalidad}</span>
                       )}
                     </div>
                     {ev.descripcion && (

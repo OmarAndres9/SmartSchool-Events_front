@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import { Hand, CalendarDays, Users, CalendarClock, BellRing, RefreshCw, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
@@ -68,15 +69,15 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout
-      title="Hola 👋"
+      title={<span style={{display: 'inline-flex', alignItems: 'center', gap: '8px'}}>Hola <Hand size={24} /></span>}
       subtitle="Aquí tienes el resumen de tus actividades escolares."
     >
       {/* ── Widgets estadísticas ── */}
       <div className="dashboard-grid">
-        <StatCard icon="fa-calendar-check" color="icon-blue"   value={evLoading  ? '...' : stats.eventosActivos} label="Eventos Activos" />
-        <StatCard icon="fa-user-graduate"  color="icon-green"  value={usrLoading ? '...' : stats.estudiantes}    label="Usuarios" />
-        <StatCard icon="fa-clock"          color="icon-orange" value={evLoading  ? '...' : stats.proximos}       label="Próximos (7 días)" />
-        <StatCard icon="fa-bell"           color="icon-purple" value={notifLoading ? '...' : stats.notificaciones} label="Notificaciones" />
+        <StatCard icon={CalendarDays} color="icon-blue"   value={evLoading  ? '...' : stats.eventosActivos} label="Eventos Activos" />
+        <StatCard icon={Users}        color="icon-green"  value={usrLoading ? '...' : stats.estudiantes}    label="Usuarios" />
+        <StatCard icon={CalendarClock} color="icon-orange" value={evLoading  ? '...' : stats.proximos}       label="Próximos (7 días)" />
+        <StatCard icon={BellRing}      color="icon-purple" value={notifLoading ? '...' : stats.notificaciones} label="Notificaciones" />
       </div>
 
       {/* ── Contenido principal ── */}
@@ -90,7 +91,7 @@ const Dashboard = () => {
               onClick={refetchEv}
               title="Actualizar eventos"
             >
-              <i className="fas fa-sync-alt" />
+              <RefreshCw size={14} />
             </button>
           </div>
           {evLoading && <LoadingSpinner message="Cargando calendario..." />}
@@ -109,7 +110,7 @@ const Dashboard = () => {
               onClick={() => navigate('/events')}
               title="Crear evento"
             >
-              <i className="fas fa-plus" />
+              <Plus size={14} />
             </button>
           </div>
 
@@ -153,10 +154,10 @@ const Dashboard = () => {
 };
 
 /** Tarjeta de estadística reutilizable */
-const StatCard = ({ icon, color, value, label }) => (
+const StatCard = ({ icon: Icon, color, value, label }) => (
   <div className="stat-card">
     <div className={`stat-icon ${color}`}>
-      <i className={`fas ${icon}`} />
+      <Icon size={28} strokeWidth={1.5} />
     </div>
     <div className="stat-info">
       <h3>{value}</h3>

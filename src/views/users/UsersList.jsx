@@ -9,6 +9,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { User, AlertTriangle, UserPlus, Save, Check, RefreshCw, Pen, Trash2, Search, Users } from 'lucide-react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorMessage from '../../components/ui/ErrorMessage';
@@ -52,7 +53,7 @@ const ModalBase = ({ title, subtitle, avatarLetter, avatarBg, onClose, children 
     <div className={styles.modal} role="dialog" aria-modal="true">
       <div className={styles.modalHeader}>
         <div className={styles.modalAvatar} style={{ background: avatarBg || '#2e7d32' }}>
-          {avatarLetter || '👤'}
+          {avatarLetter || <User size={24} />}
         </div>
         <div className={styles.modalHeaderText}>
           <h3 className={styles.modalTitle}>{title}</h3>
@@ -105,7 +106,7 @@ const CrearModal = ({ roles, onClose, onSaved }) => {
       avatarBg="#2e7d32"
       onClose={onClose}
     >
-      {errorMsg && <div className={styles.alertDanger} role="alert"><i className="fas fa-exclamation-circle" /> {errorMsg}</div>}
+      {errorMsg && <div className={styles.alertDanger} role="alert"><AlertTriangle size={16} /> {errorMsg}</div>}
 
       <form onSubmit={handleSubmit} className={styles.modalForm} noValidate>
 
@@ -173,7 +174,7 @@ const CrearModal = ({ roles, onClose, onSaved }) => {
         <div className={styles.modalActions}>
           <button type="button" className={styles.btnCancel} onClick={onClose}>Cancelar</button>
           <button type="submit" className={styles.btnSave} disabled={loading}>
-            {loading ? <><span className={styles.spinner} /> Creando...</> : <><i className="fas fa-user-plus" /> Crear usuario</>}
+            {loading ? <><span className={styles.spinner} /> Creando...</> : <><UserPlus size={16} style={{marginRight: '6px'}} /> Crear usuario</>}
           </button>
         </div>
       </form>
@@ -240,7 +241,7 @@ const EditModal = ({ user, roles, onClose, onSaved }) => {
       avatarBg={avatarColor(user.name)}
       onClose={onClose}
     >
-      {errorMsg && <div className={styles.alertDanger} role="alert"><i className="fas fa-exclamation-circle" /> {errorMsg}</div>}
+      {errorMsg && <div className={styles.alertDanger} role="alert"><AlertTriangle size={16} /> {errorMsg}</div>}
 
       <form onSubmit={handleSubmit} className={styles.modalForm} noValidate>
 
@@ -302,7 +303,7 @@ const EditModal = ({ user, roles, onClose, onSaved }) => {
         <div className={styles.modalActions}>
           <button type="button" className={styles.btnCancel} onClick={onClose}>Cancelar</button>
           <button type="submit" className={styles.btnSave} disabled={loading}>
-            {loading ? <><span className={styles.spinner} /> Guardando...</> : <><i className="fas fa-save" /> Guardar cambios</>}
+            {loading ? <><span className={styles.spinner} /> Guardando...</> : <><Save size={16} style={{marginRight: '6px'}} /> Guardar cambios</>}
           </button>
         </div>
       </form>
@@ -343,7 +344,7 @@ const RolModal = ({ user, roles, onClose, onSaved }) => {
       avatarBg={avatarColor(user.name)}
       onClose={onClose}
     >
-      {errorMsg && <div className={styles.alertDanger} role="alert"><i className="fas fa-exclamation-circle" /> {errorMsg}</div>}
+      {errorMsg && <div className={styles.alertDanger} role="alert"><AlertTriangle size={16} /> {errorMsg}</div>}
 
       <form onSubmit={handleSubmit} className={styles.modalForm} noValidate>
 
@@ -389,7 +390,7 @@ const RolModal = ({ user, roles, onClose, onSaved }) => {
                     {r.name.charAt(0).toUpperCase() + r.name.slice(1)}
                   </span>
                   {checked && (
-                    <i className="fas fa-check" style={{ marginLeft: 'auto', color: meta.color, fontSize: 12 }} />
+                    <Check size={16} style={{ marginLeft: 'auto', color: meta.color }} />
                   )}
                 </label>
               );
@@ -406,7 +407,7 @@ const RolModal = ({ user, roles, onClose, onSaved }) => {
           >
             {loading
               ? <><span className={styles.spinner} /> Cambiando...</>
-              : <><i className="fas fa-exchange-alt" /> Cambiar rol</>
+              : <><RefreshCw size={16} style={{marginRight: '6px'}} /> Cambiar rol</>
             }
           </button>
         </div>
@@ -450,7 +451,7 @@ const UserCard = ({ user, onEdit, onRol, onDelete, deleting }) => {
             title="Cambiar rol"
           >
             {meta.label}
-            <i className="fas fa-pen" style={{ fontSize: 9, marginLeft: 5, opacity: 0.7 }} />
+            <Pen size={12} style={{ marginLeft: 5, opacity: 0.7 }} />
           </button>
         ) : (
           <button
@@ -465,11 +466,11 @@ const UserCard = ({ user, onEdit, onRol, onDelete, deleting }) => {
 
       <div className={styles.cardActions}>
         <button className={styles.actionBtn} onClick={() => onEdit(user)} title="Editar">
-          <i className="fas fa-pen" />
+          <Pen size={14} style={{marginRight: '6px'}} />
           <span>Editar</span>
         </button>
         <button className={styles.actionBtn} onClick={() => onRol(user)} title="Cambiar rol">
-          <i className="fas fa-exchange-alt" />
+          <RefreshCw size={14} style={{marginRight: '6px'}} />
           <span>Rol</span>
         </button>
         <button
@@ -478,7 +479,7 @@ const UserCard = ({ user, onEdit, onRol, onDelete, deleting }) => {
           disabled={deleting}
           title="Eliminar"
         >
-          {deleting ? <span className={styles.spinnerSm} /> : <i className="fas fa-trash" />}
+          {deleting ? <span className={styles.spinnerSm} /> : <Trash2 size={14} />}
         </button>
       </div>
     </article>
@@ -539,7 +540,7 @@ const UsersList = () => {
       {/* ── Toolbar ── */}
       <div className={styles.toolbar}>
         <div className={styles.searchWrap}>
-          <i className={`fas fa-search ${styles.searchIcon}`} />
+          <Search className={styles.searchIcon} size={16} />
           <input
             className={styles.searchInput}
             type="text"
@@ -564,7 +565,7 @@ const UsersList = () => {
         </select>
 
         <button className={styles.refreshBtn} onClick={refetch} title="Actualizar lista">
-          <i className="fas fa-sync-alt" />
+          <RefreshCw size={14} style={{marginRight: '6px'}} />
           <span>Actualizar</span>
         </button>
 
@@ -573,7 +574,7 @@ const UsersList = () => {
           className={styles.createBtn}
           onClick={() => setModal('crear')}
         >
-          <i className="fas fa-user-plus" />
+          <UserPlus size={16} style={{marginRight: '6px'}} />
           <span>Nuevo usuario</span>
         </button>
       </div>
@@ -591,7 +592,7 @@ const UsersList = () => {
 
       {!loading && !error && usuariosFiltrados.length === 0 && (
         <EmptyState
-          icon="👥"
+          icon={<Users size={48} />}
           title="No hay usuarios"
           description="No se encontraron usuarios con los filtros actuales."
           action={{

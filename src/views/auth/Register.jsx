@@ -7,6 +7,7 @@
  */
 
 import React, { useState } from 'react';
+import { GraduationCap, AlertTriangle, CheckCircle } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import styles from './Auth.module.css';
@@ -24,7 +25,8 @@ const ROLES_REGISTRO = [
 
 const Register = () => {
   const navigate = useNavigate();
-  const { roles, loading: rolesLoading } = useRoles();
+  const roles = ROLES_REGISTRO;
+  const rolesLoading = false;
 
   const [formData, setFormData] = useState({
     name: '', documento: '', tipo_documento: 'CC',
@@ -61,7 +63,7 @@ const Register = () => {
 
         {/* ── Panel de marca ── */}
         <div className={styles.brand}>
-          <span className={styles.brandIcon}>🎓</span>
+          <GraduationCap className={styles.brandIcon} size={48} />
           <h1 className={styles.brandName}>SmartSchool</h1>
           <p className={styles.brandSub}>Únete a la comunidad educativa de tu institución.</p>
         </div>
@@ -71,8 +73,8 @@ const Register = () => {
           <h2 className={styles.formTitle}>Crear Cuenta</h2>
           <p className={styles.formSub}>Completa tus datos para registrarte</p>
 
-          {errorMsg   && <div className={styles.alert}  role="alert"><span>⚠️</span> {errorMsg}</div>}
-          {successMsg && <div className={styles.success} role="status"><span>✅</span> {successMsg}</div>}
+          {errorMsg   && <div className={styles.alert}  role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><AlertTriangle size={18} /> {errorMsg}</div>}
+          {successMsg && <div className={styles.success} role="status" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><CheckCircle size={18} /> {successMsg}</div>}
 
           <form className={styles.form} onSubmit={handleSubmit} noValidate>
 

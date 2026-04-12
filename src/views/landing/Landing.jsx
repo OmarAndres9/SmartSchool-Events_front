@@ -5,38 +5,39 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { CalendarDays, Users, Package, Bell, BarChart, Lock, GraduationCap, School } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './Landing.module.css';
 
 /* ─── Datos de contenido ─────────────────────────────────────────────────── */
 const FEATURES = [
   {
-    icon: '📅',
+    icon: <CalendarDays />,
     title: 'Gestión de Eventos',
     desc: 'Crea, edita y administra todos los eventos institucionales desde un solo lugar. Académicos, culturales, deportivos y más.',
   },
   {
-    icon: '👥',
+    icon: <Users />,
     title: 'Gestión de Usuarios',
     desc: 'Administra estudiantes, docentes, acudientes y organizadores con roles y permisos diferenciados.',
   },
   {
-    icon: '📦',
+    icon: <Package />,
     title: 'Control de Recursos',
     desc: 'Gestiona salones, equipos y espacios. Visualiza disponibilidad en tiempo real y evita conflictos de reservas.',
   },
   {
-    icon: '🔔',
+    icon: <Bell />,
     title: 'Notificaciones',
     desc: 'Mantén a toda la comunidad informada con alertas automáticas sobre cambios, aprobaciones y recordatorios.',
   },
   {
-    icon: '📊',
+    icon: <BarChart />,
     title: 'Reportes y Estadísticas',
     desc: 'Genera reportes detallados por fecha, tipo y estado. Toma decisiones basadas en datos reales.',
   },
   {
-    icon: '🔒',
+    icon: <Lock />,
     title: 'Acceso Seguro',
     desc: 'Autenticación con roles. Cada usuario ve y hace exactamente lo que le corresponde según su perfil.',
   },
@@ -90,7 +91,7 @@ const Landing = () => {
         <div className={styles.navContainer}>
           {/* Logo */}
           <Link to="/" className={styles.navLogo}>
-            <span className={styles.navLogoIcon}>🎓</span>
+            <GraduationCap className={styles.navLogoIcon} />
             <span>SmartSchool<strong>Events</strong></span>
           </Link>
 
@@ -136,7 +137,7 @@ const Landing = () => {
       ══════════════════════════════════════════ */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <span className={styles.heroBadge}>🏫 Sistema Escolar Inteligente</span>
+          <span className={styles.heroBadge} style={{display: 'inline-flex', alignItems: 'center', gap: '6px'}}><School size={16} /> Sistema Escolar Inteligente</span>
           <h1 className={styles.heroTitle}>
             Gestiona todos los eventos
             <span className={styles.heroTitleAccent}> de tu institución</span>
@@ -274,7 +275,7 @@ const Landing = () => {
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div className={styles.footerLogo}>
-            <span>🎓</span>
+            <GraduationCap size={28} />
             <span>SmartSchool<strong>Events</strong></span>
           </div>
           <p className={styles.footerText}>

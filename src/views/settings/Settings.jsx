@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { FileText, Shield, UserCog, Lock, Save, Key } from 'lucide-react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import useAuth from '../../hooks/useAuth';
@@ -133,7 +134,7 @@ const Settings = () => {
             {user?.documento && (
               <div className={styles.metaRow}>
                 <span className={styles.metaLabel}>
-                  <i className="fas fa-id-card" /> Documento
+                  <FileText size={14} /> Documento
                 </span>
                 <span className={styles.metaValue}>
                   {user.tipo_documento} {user.documento}
@@ -142,7 +143,7 @@ const Settings = () => {
             )}
             <div className={styles.metaRow}>
               <span className={styles.metaLabel}>
-                <i className="fas fa-shield-alt" /> Estado
+                <Shield size={14} /> Estado
               </span>
               <span className={styles.metaBadge}>Activo</span>
             </div>
@@ -154,13 +155,13 @@ const Settings = () => {
               className={`${styles.tab} ${activeTab === 'perfil' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('perfil')}
             >
-              <i className="fas fa-user-edit" /> Editar perfil
+              <UserCog size={16} style={{marginRight: '6px'}} /> Editar perfil
             </button>
             <button
               className={`${styles.tab} ${activeTab === 'seguridad' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('seguridad')}
             >
-              <i className="fas fa-lock" /> Contraseña
+              <Lock size={16} style={{marginRight: '6px'}} /> Contraseña
             </button>
           </nav>
         </aside>
@@ -173,7 +174,7 @@ const Settings = () => {
             <div className={styles.formCard}>
               <div className={styles.formCardHeader}>
                 <div className={styles.formCardIcon}>
-                  <i className="fas fa-user-edit" />
+                  <UserCog size={24} />
                 </div>
                 <div>
                   <h3 className={styles.formCardTitle}>Información personal</h3>
@@ -223,7 +224,7 @@ const Settings = () => {
                   <button type="submit" className={styles.btnSave} disabled={savingPerfil}>
                     {savingPerfil
                       ? <><span className={styles.spinner} /> Guardando...</>
-                      : <><i className="fas fa-save" /> Guardar cambios</>
+                      : <><Save size={16} style={{marginRight: '6px'}} /> Guardar cambios</>
                     }
                   </button>
                 </div>
@@ -236,7 +237,7 @@ const Settings = () => {
             <div className={styles.formCard}>
               <div className={styles.formCardHeader}>
                 <div className={styles.formCardIcon} style={{ background: '#fff3e0', color: '#e65100' }}>
-                  <i className="fas fa-lock" />
+                  <Lock size={24} />
                 </div>
                 <div>
                   <h3 className={styles.formCardTitle}>Cambiar contraseña</h3>
@@ -291,7 +292,7 @@ const Settings = () => {
                   <button type="submit" className={styles.btnSaveWarn} disabled={savingPass}>
                     {savingPass
                       ? <><span className={styles.spinner} /> Actualizando...</>
-                      : <><i className="fas fa-key" /> Actualizar contraseña</>
+                      : <><Key size={16} style={{marginRight: '6px'}} /> Actualizar contraseña</>
                     }
                   </button>
                 </div>

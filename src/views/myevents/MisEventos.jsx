@@ -5,6 +5,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { RefreshCw, Ticket, CalendarDays, Flag, MapPin, Monitor, Users, Pen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import Badge from '../../components/ui/Badge';
@@ -84,7 +85,7 @@ const MisEventos = () => {
         {/* CORRECCIÓN: select de estado eliminado — Eventos no tiene campo estado */}
 
         <button className={styles.refreshBtn} onClick={refetch}>
-          🔄 Actualizar
+          <RefreshCw size={14} style={{ marginRight: '6px' }} /> Actualizar
         </button>
       </div>
 
@@ -102,7 +103,7 @@ const MisEventos = () => {
 
       {!loading && !error && eventosFiltrados.length === 0 && (
         <EmptyState
-          icon="🎟️"
+          icon={<Ticket size={48} />}
           title="No tienes eventos"
           description="No hay eventos asociados a tu cuenta, o ninguno coincide con los filtros."
           action={{ label: '+ Crear evento', onClick: () => navigate('/events') }}
@@ -141,30 +142,30 @@ const EventoCard = ({ evento, onVerDetalles, onEditar }) => (
 
     <ul className={styles.cardMeta}>
       <li className={styles.metaItem}>
-        <span className={styles.metaIcon}>📅</span>
+        <span className={styles.metaIcon}><CalendarDays size={16} /></span>
         <span>{evento.fecha_inicio ? formatDate(evento.fecha_inicio) : 'Fecha no definida'}</span>
       </li>
       {evento.fecha_fin && (
         <li className={styles.metaItem}>
-          <span className={styles.metaIcon}>🏁</span>
+          <span className={styles.metaIcon}><Flag size={16} /></span>
           <span>Hasta: {formatDateShort(evento.fecha_fin)}</span>
         </li>
       )}
       {evento.lugar && (
         <li className={styles.metaItem}>
-          <span className={styles.metaIcon}>📍</span>
+          <span className={styles.metaIcon}><MapPin size={16} /></span>
           <span>{evento.lugar}</span>
         </li>
       )}
       {evento.modalidad && (
         <li className={styles.metaItem}>
-          <span className={styles.metaIcon}>🖥️</span>
+          <span className={styles.metaIcon}><Monitor size={16} /></span>
           <span>{evento.modalidad}</span>
         </li>
       )}
       {evento.grupo_destinado && (
         <li className={styles.metaItem}>
-          <span className={styles.metaIcon}>👥</span>
+          <span className={styles.metaIcon}><Users size={16} /></span>
           <span>{evento.grupo_destinado}</span>
         </li>
       )}
@@ -179,7 +180,7 @@ const EventoCard = ({ evento, onVerDetalles, onEditar }) => (
         Ver detalles →
       </button>
       <button className={styles.editBtn} onClick={onEditar}>
-        <i className="fas fa-pen" /> Editar
+        <Pen size={14} style={{marginRight: '4px'}} /> Editar
       </button>
     </div>
   </article>

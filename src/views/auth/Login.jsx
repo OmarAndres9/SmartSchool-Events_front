@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { GraduationCap, Hand, AlertTriangle } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../../services/api';
 import styles from './Auth.module.css';
@@ -65,18 +66,21 @@ const Login = () => {
     <div className={styles.page}>
       <div className={styles.card}>
         <div className={styles.brand}>
-          <span className={styles.brandIcon}>🎓</span>
+          <GraduationCap className={styles.brandIcon} size={48} />
           <h1 className={styles.brandName}>SmartSchool</h1>
           <p className={styles.brandSub}>Gestión escolar inteligente para tu institución.</p>
         </div>
 
         <div className={styles.formPanel}>
-          <h2 className={styles.formTitle}>Bienvenido 👋</h2>
+          <h2 className={styles.formTitle}>
+            Bienvenido
+            <Hand size={28} style={{ marginLeft: '8px', verticalAlign: 'middle' }} />
+          </h2>
           <p className={styles.formSub}>Inicia sesión para continuar</p>
 
           {errorMsg && (
-            <div className={styles.alert} role="alert">
-              <span>⚠️</span> {errorMsg}
+            <div className={styles.alert} role="alert" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertTriangle size={20} /> {errorMsg}
             </div>
           )}
 

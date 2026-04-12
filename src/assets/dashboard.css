@@ -373,19 +373,17 @@ select.custom-input {
   width: 48px;
   height: 48px;
   min-width: 48px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
-  color: #fff;
   flex-shrink: 0;
 }
 
-.icon-blue   { background: linear-gradient(135deg, #42a5f5, #1976d2); }
-.icon-green  { background: linear-gradient(135deg, #66bb6a, #2e7d32); }
-.icon-orange { background: linear-gradient(135deg, #ffa726, #ef6c00); }
-.icon-purple { background: linear-gradient(135deg, #ab47bc, #7b1fa2); }
+.icon-blue   { background: #eff6ff; color: #3b82f6; }
+.icon-green  { background: #f0fdf4; color: #22c55e; }
+.icon-orange { background: #fff7ed; color: #f97316; }
+.icon-purple { background: #faf5ff; color: #a855f7; }
 
 .stat-info h3 {
   font-family: var(--font-display);
@@ -406,7 +404,7 @@ select.custom-input {
 
 @media (min-width: 640px) {
   .dashboard-grid { gap: var(--space-4); margin-bottom: var(--space-6); }
-  .stat-icon { width: 54px; height: 54px; min-width: 54px; font-size: 1.4rem; }
+  .stat-icon { width: 56px; height: 56px; min-width: 56px; }
   .stat-info h3 { font-size: var(--font-2xl); }
   .stat-info p { font-size: var(--font-sm); }
 }
