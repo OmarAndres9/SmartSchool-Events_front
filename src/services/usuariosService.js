@@ -1,39 +1,30 @@
 /**
  * services/usuariosService.js
- * Llamadas al backend para Usuarios.
- * Endpoints Laravel: GET|POST|PUT|DELETE /api/usuarios
- *
- * Forma de la respuesta (UsuariosResource):
- *   { id, name, email, documento, tipo_documento,
- *     email_verified_at, created_at, updated_at }
- *
- * Nota: el campo de rol viene de la relación Spatie (roles[0].name).
  */
-
 import api from './api';
+import { invalidateCache } from './requestCache';
 
 const usuariosService = {
-  /** GET /api/usuarios — lista todos los usuarios */
-  getAll: (params = {}) => api.get('/usuarios', { params }),
+  getAll:  (params = {}) => api.get('/usuarios', { params }),
+  getById: (id)          => api.get(`/usuarios/${id}`),
 
-  /** GET /api/usuarios/:id */
-  getById: (id) => api.get(`/usuarios/${id}`),
+  create: async (data) => {
+    const res = await api.post('/usuarios', data);
+    invalidateCache('usuarios:');
+    return res;
+  },
 
-  /** POST /api/usuarios */
-  create: (data) => api.post('/usuarios', data),
+  update: async (id, data) => {
+    const res = await api.put(`/usuarios/${id}`, data);
+    invalidateCache('usuarios:');
+    return res;
+  },
 
-  /** PUT /api/usuarios/:id */
-  update: (id, data) => api.put(`/usuarios/${id}`, data),
-
-  /** DELETE /api/usuarios/:id */
-  remove: (id) => api.delete(`/usuarios/${id}`),
-
-  /**
-   * POST /api/users/:id/roles
-   * Asigna roles a un usuario (endpoint personalizado en routes/api.php)
-   */
-  asignarRoles: (userId, roles) =>
-    api.post(`/users/${userId}/roles`, { roles }),
+  remove: async (id) => {
+    const res = await api.delete(`/usuarios/${id}`);
+    invalidateCache('usuarios:');
+    return res;
+  },
 };
 
 export default usuariosService;

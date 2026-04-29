@@ -1,30 +1,30 @@
 /**
  * services/notificacionesService.js
- * Llamadas al backend para Notificaciones.
- * Endpoints Laravel: GET|POST|PUT|DELETE /api/notificaciones
- *
- * Forma de la respuesta (NotificacionesResource):
- *   { id, titulo, mensaje, tipo, canal,
- *     fecha_creacion, id_usuario, id_evento }
  */
-
 import api from './api';
+import { invalidateCache } from './requestCache';
 
 const notificacionesService = {
-  /** GET /api/notificaciones */
-  getAll: (params = {}) => api.get('/notificaciones', { params }),
+  getAll:  (params = {}) => api.get('/notificaciones', { params }),
+  getById: (id)          => api.get(`/notificaciones/${id}`),
 
-  /** GET /api/notificaciones/:id */
-  getById: (id) => api.get(`/notificaciones/${id}`),
+  create: async (data) => {
+    const res = await api.post('/notificaciones', data);
+    invalidateCache('notificaciones');
+    return res;
+  },
 
-  /** POST /api/notificaciones */
-  create: (data) => api.post('/notificaciones', data),
+  update: async (id, data) => {
+    const res = await api.put(`/notificaciones/${id}`, data);
+    invalidateCache('notificaciones');
+    return res;
+  },
 
-  /** PUT /api/notificaciones/:id */
-  update: (id, data) => api.put(`/notificaciones/${id}`, data),
-
-  /** DELETE /api/notificaciones/:id */
-  remove: (id) => api.delete(`/notificaciones/${id}`),
+  remove: async (id) => {
+    const res = await api.delete(`/notificaciones/${id}`);
+    invalidateCache('notificaciones');
+    return res;
+  },
 };
 
 export default notificacionesService;

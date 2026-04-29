@@ -2,18 +2,15 @@ import { useMemo } from 'react';
 import useFetch from './useFetch';
 import eventosService from '../services/eventosService';
 
-const useEventos = (params = {}) => {
-  const paramKey = JSON.stringify(params);
-
+const useMisEventos = () => {
   const { data, loading, error, refetch } = useFetch(
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    () => eventosService.getAll(params),
-    [paramKey],
-    { cacheKey: `eventos:${paramKey}`, ttl: 30_000 }
+    () => eventosService.getMisEventos(),
+    [],
+    { cacheKey: 'mis-eventos', ttl: 30_000 }
   );
 
   const eventos = useMemo(() => (Array.isArray(data) ? data : []), [data]);
   return { eventos, loading, error, refetch };
 };
 
-export default useEventos;
+export default useMisEventos;

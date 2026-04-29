@@ -1,55 +1,41 @@
 /**
  * services/eventosService.js
- * Todas las llamadas al backend relacionadas con Eventos.
- * Endpoints Laravel: GET|POST|PUT|DELETE /api/eventos
- *
- * Forma de la respuesta del backend (EventosResource):
- *   { id, nombre, descripcion, fecha_inicio, fecha_fin,
- *     lugar, tipo_evento, modalidad, grupo_destinado, creado_por }
+ * Llamadas al backend de Eventos.
+ * En mutaciones (create/update/delete) invalida la caché local
+ * para que el siguiente useFetch fuerce un refetch real.
  */
 
 import api from './api';
-
-/**
- * Extrae el array de datos de cualquier formato de respuesta Laravel:
- *   - Paginación:  response.data.data  (array dentro de objeto)
- *   - Colección:   response.data       (array directo)
- * @param {object} response - Respuesta axios
- * @returns {Array}
- */
-export const extractList = (response) => {
-  const payload = response.data;
-  if (Array.isArray(payload))       return payload;
-  if (Array.isArray(payload?.data)) return payload.data;
-  return [];
-};
+import { invalidateCache } from './requestCache';
 
 const eventosService = {
-  /** GET /api/eventos  — todos los eventos */
   getAll: (params = {}) => api.get('/eventos', { params }),
 
-  /**
-   * GET /api/eventos  — eventos del usuario autenticado.
-   * El backend filtra por auth()->id() internamente cuando usamos
-   * el endpoint /mis-eventos. Si aún no existe, cae al listado general.
-   */
   getMisEventos: () =>
     api.get('/eventos/mis-eventos').catch(() => api.get('/eventos')),
 
-  /** GET /api/eventos/:id */
   getById: (id) => api.get(`/eventos/${id}`),
 
-  /** POST /api/eventos */
-  create: (data) => api.post('/eventos', data),
+  create: async (data) => {
+    const res = await api.post('/eventos', data);
+    invalidateCache('eventos:');
+    invalidateCache('mis-eventos');
+    return res;
+  },
 
-  /** PUT /api/eventos/:id */
-  update: (id, data) => api.put(`/eventos/${id}`, data),
+  update: async (id, data) => {
+    const res = await api.put(`/eventos/${id}`, data);
+    invalidateCache('eventos:');
+    invalidateCache('mis-eventos');
+    return res;
+  },
 
-  /** DELETE /api/eventos/:id */
-  remove: (id) => api.delete(`/eventos/${id}`),
-
-  // NOTA: getByTipo eliminado — el backend no expone GET /eventos/tipo/:tipo
-  // Si se necesita filtrar por tipo, usar: eventosService.getAll({ tipo_evento: tipo })
+  remove: async (id) => {
+    const res = await api.delete(`/eventos/${id}`);
+    invalidateCache('eventos:');
+    invalidateCache('mis-eventos');
+    return res;
+  },
 };
 
 export default eventosService;

@@ -1,60 +1,77 @@
 /**
  * hooks/useFetch.js
- * Hook genérico para llamadas asíncronas.
- * Maneja: loading · error · data · refetch
+ * Hook genérico para llamadas asíncronas con:
+ *  - IN-FLIGHT DEDUPLICATION: dos componentes que montan al mismo tiempo
+ *    con la misma cacheKey comparten una única petición HTTP.
+ *  - RESULT CACHE con TTL: resultado reutilizado en navegaciones repetidas.
+ *  - CLEANUP: no actualiza estado si el componente se desmontó.
  *
- * Uso:
- *   const { data, loading, error, refetch } =
- *     useFetch(() => eventosService.getAll());
+ * Uso básico (sin caché):
+ *   const { data, loading, error, refetch } = useFetch(() => eventosService.getAll());
  *
- * Para pasar parámetros reactivos usa deps:
- *   const { data } = useFetch(() => eventosService.getAll({ tipo }), [tipo]);
+ * Uso con caché (recomendado para listados):
+ *   const { data, loading, error, refetch } = useFetch(
+ *     () => eventosService.getAll(),
+ *     [],
+ *     { cacheKey: 'eventos:{}', ttl: 30_000 }
+ *   );
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { cachedFetch, invalidateCache } from '../services/requestCache';
 
-/**
- * Normaliza la respuesta de Laravel:
- *   { data: [...] }  →  [...]   (paginación / resource collection)
- *   [...]            →  [...]   (array directo)
- *   objeto            →  objeto  (recurso individual)
- */
-const normalize = (payload) => {
-  if (payload == null) return null;
-  if (Array.isArray(payload)) return payload;
-  if (Array.isArray(payload.data)) return payload.data;
-  return payload;
-};
-
-const useFetch = (fetchFn, deps = []) => {
-  const [data, setData]       = useState(null);
+const useFetch = (fetchFn, deps = [], { cacheKey = null, ttl = 30_000 } = {}) => {
+  const [data,    setData]    = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
+  const [error,   setError]   = useState(null);
 
-  const execute = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+
+  const execute = useCallback(async (forceInvalidate = false) => {
+    if (mounted.current) { setLoading(true); setError(null); }
+
     try {
-      const response = await fetchFn();
-      setData(normalize(response.data));
+      let result;
+
+      if (cacheKey) {
+        if (forceInvalidate) invalidateCache(cacheKey);
+        result = await cachedFetch(cacheKey, fetchFn, ttl);
+      } else {
+        // Sin cacheKey: petición directa, sin caché ni deduplicación
+        const response = await fetchFn();
+        const payload  = response.data;
+        const normalized =
+          Array.isArray(payload)       ? payload :
+          Array.isArray(payload?.data) ? payload.data :
+          payload;
+        result = { data: normalized };
+      }
+
+      if (mounted.current) setData(result.data);
     } catch (err) {
-      const msg =
-        err.response?.data?.message ||
-        err.message ||
-        'Error inesperado. Intenta de nuevo.';
-      setError(msg);
-      setData(null);
+      if (mounted.current) {
+        setError(
+          err.response?.data?.message ||
+          err.message ||
+          'Error inesperado. Intenta de nuevo.'
+        );
+        setData(null);
+      }
     } finally {
-      setLoading(false);
+      if (mounted.current) setLoading(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
-  useEffect(() => {
-    execute();
-  }, [execute]);
+  useEffect(() => { execute(); }, [execute]);
 
-  return { data, loading, error, refetch: execute };
+  const refetch = useCallback(() => execute(true), [execute]);
+
+  return { data, loading, error, refetch };
 };
 
 export default useFetch;

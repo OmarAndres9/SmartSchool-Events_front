@@ -1,32 +1,30 @@
 /**
  * services/recursosService.js
- * Llamadas al backend para Recursos (logística).
  */
-
 import api from './api';
+import { invalidateCache } from './requestCache';
 
 const recursosService = {
-  /** GET /api/v1/recursos */
-  getAll: (params = {}) => api.get('/recursos', { params }),
+  getAll:  (params = {}) => api.get('/recursos', { params }),
+  getById: (id)          => api.get(`/recursos/${id}`),
 
-  /** GET /api/v1/recursos/:id */
-  getById: (id) => api.get(`/recursos/${id}`),
+  create: async (data) => {
+    const res = await api.post('/recursos', data);
+    invalidateCache('recursos');
+    return res;
+  },
 
-  /** POST /api/v1/recursos */
-  create: (data) => api.post('/recursos', data),
+  update: async (id, data) => {
+    const res = await api.put(`/recursos/${id}`, data);
+    invalidateCache('recursos');
+    return res;
+  },
 
-  /** PUT /api/v1/recursos/:id */
-  update: (id, data) => api.put(`/recursos/${id}`, data),
-
-  /** DELETE /api/v1/recursos/:id */
-  remove: (id) => api.delete(`/recursos/${id}`),
-
-  /** POST /api/v1/eventos/:idEvento/recursos */
-  agregarAEvento: (idEvento, idRecurso, cantidad = 1) =>
-    api.post(`/eventos/${idEvento}/recursos`, {
-      recurso_id: idRecurso,   // CORRECCIÓN: el backend espera recurso_id, no id_recurso
-      cantidad,
-    }),
+  remove: async (id) => {
+    const res = await api.delete(`/recursos/${id}`);
+    invalidateCache('recursos');
+    return res;
+  },
 };
 
 export default recursosService;
