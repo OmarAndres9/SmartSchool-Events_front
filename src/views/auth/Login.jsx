@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { GraduationCap, Hand, AlertTriangle } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../../services/api';
+import authService from '../../services/authService';
 import styles from './Auth.module.css';
 
 const ROLES_VALIDOS = ['estudiante', 'docente', 'acudiente', 'admin', 'organizador'];
@@ -26,7 +26,7 @@ const Login = () => {
     setErrorMsg('');
 
     try {
-      const response = await api.post('/login', {
+      const response = await authService.login({
         email:    formData.email,
         password: formData.password,
       });
