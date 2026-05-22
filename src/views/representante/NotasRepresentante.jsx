@@ -129,7 +129,8 @@ const NotasRepresentante = () => {
   const notasPorMateria = useMemo(() => {
     const map = {};
     notas.forEach(n => {
-      const key = n.materia || n.materia_nombre || n.asignatura || 'General';
+      const materiaNombre = typeof n.materia === 'object' && n.materia?.nombre ? n.materia.nombre : n.materia;
+      const key = materiaNombre || n.materia_nombre || n.asignatura || 'General';
       if (!map[key]) map[key] = { notas: [], docente: n.docente };
       map[key].notas.push(n);
     });
