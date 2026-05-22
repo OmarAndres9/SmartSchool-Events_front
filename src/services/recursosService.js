@@ -25,6 +25,12 @@ const recursosService = {
     invalidateCache('recursos');
     return res;
   },
+
+  agregarAEvento: async (eventoId, recursoId, cantidad = 1) => {
+    const res = await api.post(`/eventos/${eventoId}/recursos`, { recurso_id: recursoId, cantidad });
+    invalidateCache('recursos');
+    return res;
+  },
 };
 
 export default recursosService;

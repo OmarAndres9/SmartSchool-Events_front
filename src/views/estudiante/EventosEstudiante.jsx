@@ -32,12 +32,10 @@ const EventosEstudiante = () => {
   const [error, setError] = useState(null);
   const [search, setSearch] = useState('');
   const [filtroTipo, setFiltroTipo] = useState('');
-  const [inscritos, setInscritos] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('eventos_inscritos') || '[]'); } catch { return []; }
-  });
-  const [favoritos, setFavoritos] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('eventos_favoritos') || '[]'); } catch { return []; }
-  });
+  const [inscritos, setInscritos] = useState([]);
+  const [favoritos, setFavoritos] = useState([]);
+  const [togglingInsc, setTogglingInsc] = useState(null);
+  const [togglingFav, setTogglingFav] = useState(null);
   const mounted = useRef(true);
 
   useEffect(() => {
@@ -50,9 +48,19 @@ const EventosEstudiante = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await estudianteService.getEventos();
-      const data = Array.isArray(res.data) ? res.data : Array.isArray(res.data?.data) ? res.data.data : [];
-      if (mounted.current) setEventos(data);
+      const [eventosRes, inscripcionesRes, favoritosRes] = await Promise.all([
+        estudianteService.getEventos(),
+        eventosService.misInscripciones(),
+        eventosService.favoritos(),
+      ]);
+      const eventosData = Array.isArray(eventosRes.data) ? eventosRes.data : Array.isArray(eventosRes.data?.data) ? eventosRes.data.data : [];
+      const inscData = Array.isArray(inscripcionesRes.data) ? inscripcionesRes.data : Array.isArray(inscripcionesRes.data?.data) ? inscripcionesRes.data.data : [];
+      const favData = Array.isArray(favoritosRes.data) ? favoritosRes.data : Array.isArray(favoritosRes.data?.data) ? favoritosRes.data.data : [];
+      if (mounted.current) {
+        setEventos(eventosData);
+        setInscritos(inscData.map(e => e.id));
+        setFavoritos(favData.map(e => e.id));
+      }
     } catch (err) {
       if (mounted.current) {
         setError(err.response?.data?.message || err.message || 'Error al cargar eventos.');
@@ -64,20 +72,38 @@ const EventosEstudiante = () => {
 
   useEffect(() => { fetchEventos(); }, [fetchEventos]);
 
-  const toggleInscripcion = (eventoId) => {
-    setInscritos(prev => {
-      const next = prev.includes(eventoId) ? prev.filter(id => id !== eventoId) : [...prev, eventoId];
-      localStorage.setItem('eventos_inscritos', JSON.stringify(next));
-      return next;
-    });
+  const toggleInscripcion = async (eventoId) => {
+    setTogglingInsc(eventoId);
+    try {
+      if (inscritos.includes(eventoId)) {
+        await eventosService.desinscribir(eventoId);
+        setInscritos(prev => prev.filter(id => id !== eventoId));
+      } else {
+        await eventosService.inscribir(eventoId);
+        setInscritos(prev => [...prev, eventoId]);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error al cambiar inscripción.');
+    } finally {
+      setTogglingInsc(null);
+    }
   };
 
-  const toggleFavorito = (eventoId) => {
-    setFavoritos(prev => {
-      const next = prev.includes(eventoId) ? prev.filter(id => id !== eventoId) : [...prev, eventoId];
-      localStorage.setItem('eventos_favoritos', JSON.stringify(next));
-      return next;
-    });
+  const toggleFavorito = async (eventoId) => {
+    setTogglingFav(eventoId);
+    try {
+      if (favoritos.includes(eventoId)) {
+        await eventosService.desmarcarFavorito(eventoId);
+        setFavoritos(prev => prev.filter(id => id !== eventoId));
+      } else {
+        await eventosService.marcarFavorito(eventoId);
+        setFavoritos(prev => [...prev, eventoId]);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Error al cambiar favorito.');
+    } finally {
+      setTogglingFav(null);
+    }
   };
 
   const tipos = useMemo(() => {
@@ -186,16 +212,18 @@ const EventosEstudiante = () => {
                     <button
                       className={`button is-small ${estaInscrito ? 'is-danger' : 'is-primary is-light'}`}
                       onClick={() => toggleInscripcion(ev.id)}
+                      disabled={togglingInsc === ev.id}
                     >
-                      {estaInscrito ? <UserMinus size={14} /> : <UserPlus size={14} />}
+                      {togglingInsc === ev.id ? <span className="spinner" /> : estaInscrito ? <UserMinus size={14} /> : <UserPlus size={14} />}
                       <span style={{ marginLeft: '4px' }}>{estaInscrito ? 'Desinscribirse' : 'Inscribirse'}</span>
                     </button>
                     <button
                       className={`button is-small ${esFavorito ? 'is-danger' : 'is-light'}`}
                       onClick={() => toggleFavorito(ev.id)}
+                      disabled={togglingFav === ev.id}
                       title={esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                     >
-                      <Heart size={14} fill={esFavorito ? 'currentColor' : 'none'} />
+                      {togglingFav === ev.id ? <span className="spinner" /> : <Heart size={14} fill={esFavorito ? 'currentColor' : 'none'} />}
                     </button>
                   </div>
                 </div>

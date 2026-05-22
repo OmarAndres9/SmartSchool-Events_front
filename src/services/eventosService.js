@@ -36,6 +36,34 @@ const eventosService = {
     invalidateCache('mis-eventos');
     return res;
   },
+
+  inscribir: async (id) => {
+    const res = await api.post(`/eventos/${id}/inscribir`);
+    invalidateCache('mis-inscripciones');
+    return res;
+  },
+
+  desinscribir: async (id) => {
+    const res = await api.delete(`/eventos/${id}/desinscribir`);
+    invalidateCache('mis-inscripciones');
+    return res;
+  },
+
+  marcarFavorito: async (id) => {
+    const res = await api.post(`/eventos/${id}/favorito`);
+    invalidateCache('eventos/favoritos');
+    return res;
+  },
+
+  desmarcarFavorito: async (id) => {
+    const res = await api.delete(`/eventos/${id}/favorito`);
+    invalidateCache('eventos/favoritos');
+    return res;
+  },
+
+  misInscripciones: () => api.get('/mis-inscripciones'),
+
+  favoritos: () => api.get('/eventos/favoritos'),
 };
 
 export default eventosService;

@@ -25,6 +25,12 @@ const usuariosService = {
     invalidateCache('usuarios:');
     return res;
   },
+
+  asignarRoles: async (userId, roles) => {
+    const res = await api.post(`/users/${userId}/roles`, { roles });
+    invalidateCache('usuarios:');
+    return res;
+  },
 };
 
 export default usuariosService;
