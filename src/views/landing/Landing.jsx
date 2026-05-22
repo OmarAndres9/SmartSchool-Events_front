@@ -70,11 +70,7 @@ const Landing = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Redirigir si ya está autenticado
-  useEffect(() => {
-    const token = localStorage.getItem('auth_token');
-    if (token) navigate('/dashboard', { replace: true });
-  }, [navigate]);
+  // (opcional) redirigir si ya está autenticado
 
   const scrollTo = (id) => {
     setMenuOpen(false);
