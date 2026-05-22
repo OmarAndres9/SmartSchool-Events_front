@@ -33,7 +33,7 @@ const NAV_ITEMS = [
   { to: '/events',                   Icon: IconEventos,    label: 'Eventos',          roles: ['admin', 'organizador'] },
   { to: '/logistics',                Icon: IconMapa,       label: 'Logística',        roles: ['admin', 'organizador'] },
   { to: '/notifications',            Icon: IconAnuncios,   label: 'Anuncios',         roles: null },
-  { to: '/mis-eventos',              Icon: IconMisEventos, label: 'Mis Eventos',      roles: null },
+  { to: '/mis-eventos',              Icon: IconMisEventos, label: 'Mis Eventos',      roles: ['admin', 'organizador', 'docente', 'directivo'] },
   { to: '/reports',                  Icon: IconFotos,      label: 'Reportes',         roles: ['admin', 'organizador'] },
   { to: '/users',                    Icon: IconPerfil,     label: 'Usuarios',         roles: ['admin'] },
   { to: '/settings',                 Icon: IconEntradas,   label: 'Perfil',           roles: null },
