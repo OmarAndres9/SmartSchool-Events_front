@@ -97,7 +97,7 @@ const DetalleEstudiante = () => {
         const est = ests.find(e => String(e.id) === String(id));
         if (mounted.current) setEstudiante(est || null);
 
-        const pers = Array.isArray(perRes.data) ? perRes.data : Array.isArray(perRes.data?.data) ? perRes.data.data : [];
+        const pers = Array.isArray(perRes.data) ? perRes.data : Array.isArray(perRes.data?.data) ? perRes.data.data : Array.isArray(perRes.data?.periodos) ? perRes.data.periodos : [];
         if (mounted.current) {
           setPeriodos(pers);
           if (pers.length > 0) {

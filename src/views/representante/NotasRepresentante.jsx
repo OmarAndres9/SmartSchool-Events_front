@@ -34,7 +34,7 @@ const useNotasRepresentante = () => {
         setEstudiantes(ests);
         if (ests.length > 0) setEstudianteId(String(ests[0].id));
 
-        const pers = Array.isArray(perRes.data) ? perRes.data : Array.isArray(perRes.data?.data) ? perRes.data.data : [];
+        const pers = Array.isArray(perRes.data) ? perRes.data : Array.isArray(perRes.data?.data) ? perRes.data.data : Array.isArray(perRes.data?.periodos) ? perRes.data.periodos : [];
         setPeriodos(pers);
         if (pers.length > 0) setPeriodoActivo(String(pers[0].id));
       }

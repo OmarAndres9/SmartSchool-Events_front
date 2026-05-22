@@ -23,7 +23,7 @@ const useNotasData = () => {
   const fetchPeriodos = useCallback(async () => {
     try {
       const res = await estudianteService.getPeriodos();
-      const data = Array.isArray(res.data) ? res.data : Array.isArray(res.data?.data) ? res.data.data : [];
+      const data = Array.isArray(res.data) ? res.data : Array.isArray(res.data?.data) ? res.data.data : Array.isArray(res.data?.periodos) ? res.data.periodos : [];
       if (mounted.current) {
         setPeriodos(data);
         if (data.length > 0) {
