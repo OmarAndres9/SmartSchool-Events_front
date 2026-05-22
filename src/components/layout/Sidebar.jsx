@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { GraduationCap, LogOut, X, CalendarDays, CalendarRange, Map, Bell, CalendarCheck, BarChart, Users, UserCircle, CalendarClock } from 'lucide-react';
+import { GraduationCap, LogOut, X, CalendarDays, CalendarRange, Map, Bell, CalendarCheck, BarChart, Users, UserCircle, CalendarClock, ClipboardList } from 'lucide-react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import authService from '../../services/authService';
@@ -25,8 +25,10 @@ const IconEntradas   = () => <UserCircle size={24} />;
 const NAV_ITEMS = [
   { to: '/dashboard',                Icon: IconCalendario, label: 'Calendario',       roles: ['admin', 'organizador', 'docente', 'directivo'] },
   { to: '/estudiante/dashboard',     Icon: IconCalendario, label: 'Dashboard',       roles: ['estudiante'] },
+  { to: '/estudiante/notas',         Icon: ClipboardList,  label: 'Notas',            roles: ['estudiante'] },
   { to: '/estudiante/eventos',       Icon: IconEventos,    label: 'Eventos',          roles: ['estudiante'] },
   { to: '/representante/dashboard',  Icon: IconCalendario, label: 'Dashboard',       roles: ['representante', 'acudiente'] },
+  { to: '/representante/notas',      Icon: ClipboardList,  label: 'Notas',            roles: ['representante', 'acudiente'] },
   { to: '/citas',                    Icon: CalendarClock,  label: 'Citas',            roles: ['representante', 'acudiente', 'docente', 'directivo'] },
   { to: '/events',                   Icon: IconEventos,    label: 'Eventos',          roles: ['admin', 'organizador'] },
   { to: '/logistics',                Icon: IconMapa,       label: 'Logística',        roles: ['admin', 'organizador'] },

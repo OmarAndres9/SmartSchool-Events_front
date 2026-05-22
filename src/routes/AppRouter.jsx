@@ -26,8 +26,10 @@ import CrearNotificacion    from '../views/notifications/CrearNotificacion';
 import Settings             from '../views/settings/Settings';
 import UsersList            from '../views/users/UsersList';
 import DashboardEstudiante  from '../views/estudiante/DashboardEstudiante';
+import NotasEstudiante      from '../views/estudiante/NotasEstudiante';
 import EventosEstudiante    from '../views/estudiante/EventosEstudiante';
 import DashboardRepresentante from '../views/representante/DashboardRepresentante';
+import NotasRepresentante   from '../views/representante/NotasRepresentante';
 import DetalleEstudiante    from '../views/representante/DetalleEstudiante';
 import Citas                from '../views/representante/Citas';
 
@@ -104,6 +106,9 @@ const AppRouter = () => (
       <Route path="/estudiante/dashboard" element={
         <RequireRole roles={['estudiante']}><DashboardEstudiante /></RequireRole>
       } />
+      <Route path="/estudiante/notas" element={
+        <RequireRole roles={['estudiante']}><NotasEstudiante /></RequireRole>
+      } />
       <Route path="/estudiante/eventos" element={
         <RequireRole roles={['estudiante']}><EventosEstudiante /></RequireRole>
       } />
@@ -111,6 +116,9 @@ const AppRouter = () => (
       {/* ── Representante ── */}
       <Route path="/representante/dashboard" element={
         <RequireRole roles={['representante', 'acudiente']}><DashboardRepresentante /></RequireRole>
+      } />
+      <Route path="/representante/notas" element={
+        <RequireRole roles={['representante', 'acudiente']}><NotasRepresentante /></RequireRole>
       } />
       <Route path="/representante/estudiantes/:id" element={
         <RequireRole roles={['representante', 'acudiente']}><DetalleEstudiante /></RequireRole>

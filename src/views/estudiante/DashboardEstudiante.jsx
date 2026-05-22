@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { BookOpen, GraduationCap, CalendarDays, TrendingUp, X, Clock, MapPin, Monitor, Star, RefreshCw } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { BookOpen, GraduationCap, CalendarDays, TrendingUp, X, Clock, MapPin, Monitor, Star, RefreshCw, ExternalLink } from 'lucide-react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorMessage from '../../components/ui/ErrorMessage';
@@ -201,6 +202,7 @@ const TipoBadge = ({ tipo }) => {
 };
 
 const DashboardEstudiante = () => {
+  const navigate = useNavigate();
   const {
     periodos, periodoActivo, notas, promedios, eventos, loading, error, handlePeriodoChange, refetchAll,
   } = useEstudianteData();
@@ -304,6 +306,9 @@ const DashboardEstudiante = () => {
               <div className="card-box" style={{ marginBottom: '24px' }}>
                 <div className="card-header">
                   <h3 className="card-title">Materias</h3>
+                  <button className="button is-small is-primary is-light" onClick={() => navigate('/estudiante/notas')}>
+                    <ExternalLink size={14} style={{ marginRight: '4px' }} /> Ir a Notas
+                  </button>
                 </div>
                 {materiasConPromedio.length === 0 ? (
                   <EmptyState title="Sin materias" description="No hay materias registradas en este periodo." />
