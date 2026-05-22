@@ -31,6 +31,7 @@ const NAV_ITEMS = [
   { to: '/representante/notas',      Icon: ClipboardList,  label: 'Notas',            roles: ['representante', 'acudiente'] },
   { to: '/citas',                    Icon: CalendarClock,  label: 'Citas',            roles: ['representante', 'acudiente', 'docente', 'directivo'] },
   { to: '/events',                   Icon: IconEventos,    label: 'Eventos',          roles: ['admin', 'organizador'] },
+  { to: '/gestion-notas',            Icon: ClipboardList,  label: 'Gestión Notas',    roles: ['admin', 'organizador', 'docente'] },
   { to: '/logistics',                Icon: IconMapa,       label: 'Logística',        roles: ['admin', 'organizador'] },
   { to: '/notifications',            Icon: IconAnuncios,   label: 'Anuncios',         roles: null },
   { to: '/mis-eventos',              Icon: IconMisEventos, label: 'Mis Eventos',      roles: ['admin', 'organizador', 'docente', 'directivo'] },

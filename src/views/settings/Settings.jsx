@@ -21,8 +21,14 @@ const AVATAR_COLORS = [
 const avatarColor = (name = '') =>
   AVATAR_COLORS[(name?.charCodeAt(0) || 0) % AVATAR_COLORS.length];
 
+const RESTRICTED_ROLES = ['estudiante', 'representante', 'acudiente'];
+
 const Settings = () => {
   const { user } = useAuth();
+
+  const rolRaw   = user?.roles?.[0];
+  const rol      = typeof rolRaw === 'string' ? rolRaw : rolRaw?.name || '';
+  const isRestricted = RESTRICTED_ROLES.includes(rol.toLowerCase());
 
   const [perfil, setPerfil] = useState({
     name: '', email: '', documento: '', tipo_documento: 'CC',
@@ -35,7 +41,7 @@ const Settings = () => {
   const [savingPass,    setSavingPass]    = useState(false);
   const [msgPerfil,     setMsgPerfil]     = useState({ type: '', text: '' });
   const [msgPass,       setMsgPass]       = useState({ type: '', text: '' });
-  const [activeTab,     setActiveTab]     = useState('perfil');
+  const [activeTab,     setActiveTab]     = useState(isRestricted ? 'seguridad' : 'perfil');
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -97,8 +103,6 @@ const Settings = () => {
     } finally { setSavingPass(false); }
   };
 
-  const rolRaw   = user?.roles?.[0];
-  const rol      = typeof rolRaw === 'string' ? rolRaw : rolRaw?.name || 'Usuario';
   const rolLabel = rol.charAt(0).toUpperCase() + rol.slice(1);
   const color    = avatarColor(user?.name);
 
@@ -151,12 +155,14 @@ const Settings = () => {
 
           {/* Tabs navegación */}
           <nav className={styles.tabs}>
-            <button
-              className={`${styles.tab} ${activeTab === 'perfil' ? styles.tabActive : ''}`}
-              onClick={() => setActiveTab('perfil')}
-            >
-              <UserCog size={16} style={{marginRight: '6px'}} /> Editar perfil
-            </button>
+            {!isRestricted && (
+              <button
+                className={`${styles.tab} ${activeTab === 'perfil' ? styles.tabActive : ''}`}
+                onClick={() => setActiveTab('perfil')}
+              >
+                <UserCog size={16} style={{marginRight: '6px'}} /> Editar perfil
+              </button>
+            )}
             <button
               className={`${styles.tab} ${activeTab === 'seguridad' ? styles.tabActive : ''}`}
               onClick={() => setActiveTab('seguridad')}
@@ -182,6 +188,12 @@ const Settings = () => {
                 </div>
               </div>
 
+              {isRestricted && (
+                <div className={styles.alert} style={{ background: '#fff3e0', color: '#e65100', border: '1px solid #ffcc80', borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', fontSize: '0.85rem' }}>
+                  Solo puedes cambiar tu contraseña. Los datos personales son de solo lectura.
+                </div>
+              )}
+
               {msgPerfil.text && (
                 <div className={`${styles.alert} ${styles[`alert_${msgPerfil.type}`]}`}>
                   {msgPerfil.text}
@@ -193,14 +205,16 @@ const Settings = () => {
                   <label className={styles.label} htmlFor="name">Nombre completo</label>
                   <input id="name" name="name" type="text"
                     className={styles.input}
-                    value={perfil.name} onChange={handlePerfilChange} required />
+                    value={perfil.name} onChange={handlePerfilChange} required
+                    disabled={isRestricted} />
                 </div>
 
                 <div className={styles.field}>
                   <label className={styles.label} htmlFor="email">Correo electrónico</label>
                   <input id="email" name="email" type="email"
                     className={styles.input}
-                    value={perfil.email} onChange={handlePerfilChange} required />
+                    value={perfil.email} onChange={handlePerfilChange} required
+                    disabled={isRestricted} />
                 </div>
 
                 <div className={styles.fieldRow}>
@@ -208,7 +222,8 @@ const Settings = () => {
                     <label className={styles.label} htmlFor="tipo_documento">Tipo ID</label>
                     <select id="tipo_documento" name="tipo_documento"
                       className={styles.input}
-                      value={perfil.tipo_documento} onChange={handlePerfilChange}>
+                      value={perfil.tipo_documento} onChange={handlePerfilChange}
+                      disabled={isRestricted}>
                       {TIPO_DOC.map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
                   </div>
@@ -216,18 +231,21 @@ const Settings = () => {
                     <label className={styles.label} htmlFor="documento">N° Documento</label>
                     <input id="documento" name="documento" type="text"
                       className={styles.input}
-                      value={perfil.documento} onChange={handlePerfilChange} />
+                      value={perfil.documento} onChange={handlePerfilChange}
+                      disabled={isRestricted} />
                   </div>
                 </div>
 
-                <div className={styles.formActions}>
-                  <button type="submit" className={styles.btnSave} disabled={savingPerfil}>
-                    {savingPerfil
-                      ? <><span className={styles.spinner} /> Guardando...</>
-                      : <><Save size={16} style={{marginRight: '6px'}} /> Guardar cambios</>
-                    }
-                  </button>
-                </div>
+                {!isRestricted && (
+                  <div className={styles.formActions}>
+                    <button type="submit" className={styles.btnSave} disabled={savingPerfil}>
+                      {savingPerfil
+                        ? <><span className={styles.spinner} /> Guardando...</>
+                        : <><Save size={16} style={{marginRight: '6px'}} /> Guardar cambios</>
+                      }
+                    </button>
+                  </div>
+                )}
               </form>
             </div>
           )}

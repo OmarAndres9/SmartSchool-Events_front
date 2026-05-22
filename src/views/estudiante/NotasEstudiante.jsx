@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { RefreshCw, BookOpen, ChevronDown, ChevronUp } from 'lucide-react';
+import { RefreshCw, BookOpen } from 'lucide-react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import ErrorMessage from '../../components/ui/ErrorMessage';
@@ -67,43 +67,12 @@ const useNotasData = () => {
   return { periodos, periodoActivo, setPeriodoActivo, notas, promedios, loading, error, refetch };
 };
 
-const NotaCell = ({ value }) => {
-  if (value == null) return <td style={cellStyle}>--</td>;
-  const num = Number(value);
-  const color = num >= 4 ? '#2e7d32' : num >= 3 ? '#e65100' : '#c62828';
-  return <td style={{ ...cellStyle, color, fontWeight: num >= 3 ? 700 : 600 }}>{num.toFixed(1)}</td>;
-};
-
-const cellStyle = {
-  padding: '10px 14px',
-  textAlign: 'center',
-  fontSize: '0.9rem',
-  borderBottom: '1px solid #e0e0e0',
-  whiteSpace: 'nowrap',
-};
-
-const headerCellStyle = {
-  padding: '12px 14px',
-  textAlign: 'center',
-  fontSize: '0.8rem',
-  fontWeight: 700,
-  color: '#fff',
-  background: '#2e7d32',
-  borderBottom: '2px solid #1b5e20',
-  whiteSpace: 'nowrap',
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-};
-
 const NotasEstudiante = () => {
   const { periodos, periodoActivo, setPeriodoActivo, notas, promedios, loading, error, refetch } = useNotasData();
 
   const promedioGeneral = promedios?.promedio_general
     ? Number(promedios.promedio_general).toFixed(2)
     : null;
-
-  const promedioNum = promedioGeneral ? Number(promedioGeneral) : 0;
-  const promColor = promedioNum >= 4 ? '#2e7d32' : promedioNum >= 3 ? '#e65100' : '#c62828';
 
   const notasPorMateria = useMemo(() => {
     const map = {};
@@ -189,75 +158,54 @@ const NotasEstudiante = () => {
             </div>
           </div>
 
-          <div className="card-box" style={{ padding: 0, overflow: 'hidden', borderRadius: '12px', marginBottom: '20px' }}>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '700px' }}>
-                <thead>
-                  <tr>
-                    <th style={{ ...headerCellStyle, textAlign: 'left', position: 'sticky', left: 0, zIndex: 2 }}>Materia</th>
-                    {notas.length > 0 && notas[0].corte_1 !== undefined && (
-                      <>
-                        <th style={headerCellStyle}>Corte 1</th>
-                        <th style={headerCellStyle}>Corte 2</th>
-                        <th style={headerCellStyle}>Corte 3</th>
-                      </>
+          <div className="card-box" style={{ padding: '4px', borderRadius: '12px', marginBottom: '20px' }}>
+            {materias.map((m, i) => {
+              const estado = m.definitiva >= 3 ? 'Aprobado' : 'Reprobado';
+              const estadoColor = m.definitiva >= 3 ? '#2e7d32' : '#c62828';
+              const estadoBg = m.definitiva >= 3 ? '#e8f5e9' : '#ffebee';
+              const defColor = m.definitiva >= 4 ? '#2e7d32' : m.definitiva >= 3 ? '#e65100' : '#c62828';
+              const rowBg = i % 2 === 0 ? '#ffffff' : '#f9fafb';
+              return (
+                <div key={m.nombre} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '14px 20px', background: rowBg, borderRadius: '10px',
+                  margin: '4px', gap: '12px', flexWrap: 'wrap',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: '1 1 200px', minWidth: '160px' }}>
+                    <BookOpen size={18} style={{ color: '#2e7d32', flexShrink: 0 }} />
+                    <span style={{ fontWeight: 600, color: '#1a1a2e', fontSize: '0.95rem' }}>{m.nombre}</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                    {m.cortes.map((c, j) => {
+                      const cColor = c >= 4 ? '#2e7d32' : c >= 3 ? '#e65100' : '#c62828';
+                      return (
+                        <div key={j} style={{ textAlign: 'center', minWidth: '52px' }}>
+                          <div style={{ fontSize: '0.65rem', color: '#888', fontWeight: 600, textTransform: 'uppercase', marginBottom: '2px' }}>C{j + 1}</div>
+                          <div style={{ fontWeight: 700, fontSize: '1.05rem', color: cColor }}>{c.toFixed(1)}</div>
+                        </div>
+                      );
+                    })}
+                    {m.examen != null && (
+                      <div style={{ textAlign: 'center', minWidth: '52px' }}>
+                        <div style={{ fontSize: '0.65rem', color: '#888', fontWeight: 600, textTransform: 'uppercase', marginBottom: '2px' }}>Ex</div>
+                        <div style={{ fontWeight: 700, fontSize: '1.05rem', color: defColor }}>{Number(m.examen).toFixed(1)}</div>
+                      </div>
                     )}
-                    {notas[0]?.examen !== undefined && (
-                      <th style={headerCellStyle}>Examen</th>
-                    )}
-                    {materias.some(m => m.cortes.length > 0) && <th style={headerCellStyle}>Cortes</th>}
-                    <th style={{ ...headerCellStyle, background: '#1b5e20' }}>Definitiva</th>
-                    <th style={{ ...headerCellStyle, background: '#1b5e20' }}>Estado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {materias.map((m, i) => {
-                    const estado = m.definitiva >= 3 ? 'Aprobado' : 'Reprobado';
-                    const estadoColor = m.definitiva >= 3 ? '#2e7d32' : '#c62828';
-                    const estadoBg = m.definitiva >= 3 ? '#e8f5e9' : '#ffebee';
-                    const rowBg = i % 2 === 0 ? '#ffffff' : '#f9fafb';
-                    const defColor = m.definitiva >= 4 ? '#2e7d32' : m.definitiva >= 3 ? '#e65100' : '#c62828';
-                    return (
-                      <tr key={m.nombre} style={{ background: rowBg, transition: 'background 0.15s' }}>
-                        <td style={{
-                          ...cellStyle, textAlign: 'left', fontWeight: 600, color: '#333',
-                          position: 'sticky', left: 0, background: rowBg, zIndex: 1,
-                          borderRight: '1px solid #e8e8e8',
-                        }}>
-                          {m.nombre}
-                        </td>
-                        {m.cortes.map((c, j) => (
-                          <NotaCell key={j} value={c} />
-                        ))}
-                        {m.cortes.length > 0 && m.cortes.length < 3 && Array.from({ length: 3 - m.cortes.length }).map((_, j) => (
-                          <NotaCell key={`empty-${j}`} value={null} />
-                        ))}
-                        {m.examen !== undefined && <NotaCell value={m.examen} />}
-                        {m.cortes.length === 0 && (
-                          <>
-                            <td style={cellStyle}>--</td>
-                            <td style={cellStyle}>--</td>
-                            <td style={cellStyle}>--</td>
-                          </>
-                        )}
-                        <td style={{ ...cellStyle, fontWeight: 800, color: defColor, fontSize: '1rem' }}>
-                          {m.definitiva.toFixed(1)}
-                        </td>
-                        <td style={cellStyle}>
-                          <span style={{
-                            padding: '4px 12px', borderRadius: '20px', fontSize: '0.75rem',
-                            fontWeight: 700, background: estadoBg, color: estadoColor,
-                            display: 'inline-block',
-                          }}>
-                            {estado}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                    <div style={{ width: '1px', height: '28px', background: '#e0e0e0' }} />
+                    <div style={{ textAlign: 'center', minWidth: '60px' }}>
+                      <div style={{ fontSize: '0.65rem', color: '#888', fontWeight: 600, textTransform: 'uppercase', marginBottom: '2px' }}>Def</div>
+                      <div style={{ fontWeight: 800, fontSize: '1.15rem', color: defColor }}>{m.definitiva.toFixed(1)}</div>
+                    </div>
+                    <span style={{
+                      padding: '4px 14px', borderRadius: '20px', fontSize: '0.75rem',
+                      fontWeight: 700, background: estadoBg, color: estadoColor,
+                    }}>
+                      {estado}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
           <div className="card-box" style={{

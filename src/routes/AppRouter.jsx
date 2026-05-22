@@ -32,6 +32,7 @@ import DashboardRepresentante from '../views/representante/DashboardRepresentant
 import NotasRepresentante   from '../views/representante/NotasRepresentante';
 import DetalleEstudiante    from '../views/representante/DetalleEstudiante';
 import Citas                from '../views/representante/Citas';
+import GestionNotas         from '../views/docente/GestionNotas';
 
 /* ── Helpers ────────────────────────────────────────────────── */
 const getUser  = () => { try { return JSON.parse(localStorage.getItem('user')); } catch { return null; } };
@@ -122,6 +123,11 @@ const AppRouter = () => (
       } />
       <Route path="/representante/estudiantes/:id" element={
         <RequireRole roles={['representante', 'acudiente']}><DetalleEstudiante /></RequireRole>
+      } />
+
+      {/* ── Docente: gestión de notas ── */}
+      <Route path="/gestion-notas" element={
+        <RequireRole roles={['admin', 'organizador', 'docente']}><GestionNotas /></RequireRole>
       } />
 
       {/* ── Citas (representante, docente, directivo) ── */}
