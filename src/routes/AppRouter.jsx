@@ -25,6 +25,11 @@ import Notifications        from '../views/notifications/Notifications';
 import CrearNotificacion    from '../views/notifications/CrearNotificacion';
 import Settings             from '../views/settings/Settings';
 import UsersList            from '../views/users/UsersList';
+import DashboardEstudiante  from '../views/estudiante/DashboardEstudiante';
+import EventosEstudiante    from '../views/estudiante/EventosEstudiante';
+import DashboardRepresentante from '../views/representante/DashboardRepresentante';
+import DetalleEstudiante    from '../views/representante/DetalleEstudiante';
+import Citas                from '../views/representante/Citas';
 
 /* ── Helpers ────────────────────────────────────────────────── */
 const getUser  = () => { try { return JSON.parse(localStorage.getItem('user')); } catch { return null; } };
@@ -93,6 +98,27 @@ const AppRouter = () => (
       {/* ── Solo admin ── */}
       <Route path="/users" element={
         <RequireRole roles={['admin']}><UsersList /></RequireRole>
+      } />
+
+      {/* ── Estudiante ── */}
+      <Route path="/estudiante/dashboard" element={
+        <RequireRole roles={['estudiante']}><DashboardEstudiante /></RequireRole>
+      } />
+      <Route path="/estudiante/eventos" element={
+        <RequireRole roles={['estudiante']}><EventosEstudiante /></RequireRole>
+      } />
+
+      {/* ── Representante ── */}
+      <Route path="/representante/dashboard" element={
+        <RequireRole roles={['representante', 'acudiente']}><DashboardRepresentante /></RequireRole>
+      } />
+      <Route path="/representante/estudiantes/:id" element={
+        <RequireRole roles={['representante', 'acudiente']}><DetalleEstudiante /></RequireRole>
+      } />
+
+      {/* ── Citas (representante, docente, directivo) ── */}
+      <Route path="/citas" element={
+        <RequireRole roles={['representante', 'acudiente', 'docente', 'directivo']}><Citas /></RequireRole>
       } />
 
       {/* ── Fallback ── */}

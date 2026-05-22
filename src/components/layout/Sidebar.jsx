@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
-import { GraduationCap, LogOut, X, CalendarDays, CalendarRange, Map, Bell, CalendarCheck, BarChart, Users, UserCircle } from 'lucide-react';
+import { GraduationCap, LogOut, X, CalendarDays, CalendarRange, Map, Bell, CalendarCheck, BarChart, Users, UserCircle, CalendarClock } from 'lucide-react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import authService from '../../services/authService';
@@ -23,14 +23,18 @@ const IconEntradas   = () => <UserCircle size={24} />;
 
 /* ─── Mapa de ítems de navegación ──────────────────────────── */
 const NAV_ITEMS = [
-  { to: '/dashboard',     Icon: IconCalendario, label: 'Calendario',       roles: null },
-  { to: '/events',        Icon: IconEventos,    label: 'Eventos',          roles: ['admin', 'organizador'] },
-  { to: '/logistics',     Icon: IconMapa,       label: 'Logística',        roles: ['admin', 'organizador'] },
-  { to: '/notifications', Icon: IconAnuncios,   label: 'Anuncios',         roles: null },
-  { to: '/mis-eventos',   Icon: IconMisEventos, label: 'Mis Eventos',      roles: null },
-  { to: '/reports',       Icon: IconFotos,      label: 'Reportes',         roles: ['admin', 'organizador'] },
-  { to: '/users',         Icon: IconPerfil,     label: 'Usuarios',         roles: ['admin'] },
-  { to: '/settings',      Icon: IconEntradas,   label: 'Perfil',roles: null },
+  { to: '/dashboard',                Icon: IconCalendario, label: 'Calendario',       roles: ['admin', 'organizador', 'docente', 'directivo'] },
+  { to: '/estudiante/dashboard',     Icon: IconCalendario, label: 'Dashboard',       roles: ['estudiante'] },
+  { to: '/estudiante/eventos',       Icon: IconEventos,    label: 'Eventos',          roles: ['estudiante'] },
+  { to: '/representante/dashboard',  Icon: IconCalendario, label: 'Dashboard',       roles: ['representante', 'acudiente'] },
+  { to: '/citas',                    Icon: CalendarClock,  label: 'Citas',            roles: ['representante', 'acudiente', 'docente', 'directivo'] },
+  { to: '/events',                   Icon: IconEventos,    label: 'Eventos',          roles: ['admin', 'organizador'] },
+  { to: '/logistics',                Icon: IconMapa,       label: 'Logística',        roles: ['admin', 'organizador'] },
+  { to: '/notifications',            Icon: IconAnuncios,   label: 'Anuncios',         roles: null },
+  { to: '/mis-eventos',              Icon: IconMisEventos, label: 'Mis Eventos',      roles: null },
+  { to: '/reports',                  Icon: IconFotos,      label: 'Reportes',         roles: ['admin', 'organizador'] },
+  { to: '/users',                    Icon: IconPerfil,     label: 'Usuarios',         roles: ['admin'] },
+  { to: '/settings',                 Icon: IconEntradas,   label: 'Perfil',           roles: null },
 ];
 
 const Sidebar = ({ isOpen, onClose }) => {

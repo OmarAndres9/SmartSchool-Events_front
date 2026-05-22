@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import authService from '../../services/authService';
 import styles from './Auth.module.css';
 
-const ROLES_VALIDOS = ['estudiante', 'docente', 'acudiente', 'admin', 'organizador'];
+const ROLES_VALIDOS = ['estudiante', 'docente', 'acudiente', 'representante', 'directivo', 'admin', 'organizador'];
 
 const Login = () => {
   const navigate = useNavigate();
@@ -124,6 +124,8 @@ const Login = () => {
                 <option value="estudiante">Estudiante</option>
                 <option value="docente">Docente / Profesor</option>
                 <option value="acudiente">Acudiente</option>
+                <option value="representante">Representante</option>
+                <option value="directivo">Directivo</option>
                 <option value="admin">Administrador</option>
                 <option value="organizador">Organizador</option>
               </select>
